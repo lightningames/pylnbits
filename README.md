@@ -1,8 +1,9 @@
 # lnbitsbot
 
-starter template for running bots based off of lnbits 
+starter template for running bots based off of lnbits.com or your own install. 
+To set up your own install fast see:  https://www.youtube.com/watch?v=AzIPVmCIVAw
 
-Just my quick and dirty setup using lnbits as the backend for a python TG bot
+Just my quick and dirty outline using lnbits as the backend for a python TG bot
 that can: 
 
 - create a wallet on lnbits tied to a TG username
