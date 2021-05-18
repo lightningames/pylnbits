@@ -1,6 +1,7 @@
 import requests
 import logging
 import yaml
+import os
 
 '''
 Rest API methods for LNbits User Manager Extension
@@ -22,8 +23,9 @@ logging.getLogger('lnbot').setLevel(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 ###################################
 
-path  = "./"
-config_file = path + 'config.yml'
+os.chdir("..")
+path  = os.getcwd()
+config_file = path + '/config.yml'
 with open(config_file, 'rb') as f:
     config = yaml.safe_load(f)
 f.close()
