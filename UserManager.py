@@ -3,7 +3,17 @@ import logging
 import yaml
 
 '''
-Rest API calls for LNbits User Manager Extension
+Rest API methods for LNbits User Manager Extension
+
+GET users
+GET wallets
+GET transactions
+POST user + initial wallet
+POST wallet
+DELETE user and their wallets
+DELETE wallet
+POST activate extension
+
 '''
 
 ###################################
@@ -56,6 +66,9 @@ def get_tx(wallet_id):
     except Exception as e:
         logger.info(e)
         return e
+
+
+
 
 
 # tests, temporarily here, move to separate file later
