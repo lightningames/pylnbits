@@ -13,3 +13,4 @@ that can:
 - gift sats with custom image and message. unclaimed sats should expire and return to sender
 - instructions with easy on ramp for users who don't hold sats or bitcoin
 - /tx, /log, /lnurl
+- Add throttle tx size based on node top capacity
