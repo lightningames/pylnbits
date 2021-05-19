@@ -1,5 +1,4 @@
 from aiohttp.client import ClientSession
-import asyncio
 import logging
 
 '''
@@ -8,6 +7,9 @@ Rest API methods for LNbits User Manager Extension
 GET users
 GET wallets
 GET transactions
+
+todo:
+
 POST user + initial wallet
 POST wallet
 DELETE user and their wallets
