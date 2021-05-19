@@ -1,7 +1,6 @@
 import requests
 import logging
 
-
 '''
 Rest API methods for LNbits User Manager Extension
 
@@ -21,6 +20,9 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logging.getLogger('lnbot').setLevel(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 ###################################
+
+
+# TODO - REFACTOR FOR ASYNCIO, this is too slow
 
 class UserManager:
     def __init__(self,
