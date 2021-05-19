@@ -1,4 +1,4 @@
 '''
-Rest API methods for LNbits LNURLp Extension
+Rest API methods for LNbits LNURLp Pay Extension
 
 '''

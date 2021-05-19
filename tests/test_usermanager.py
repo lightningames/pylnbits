@@ -1,18 +1,27 @@
-# TODO: make this a proper unit test
 from os.path import join, realpath
 import sys; sys.path.insert(0, realpath(join(__file__, "../../")))
-from lnbits.user_manager import get_tx, get_users, get_wallets
+from config import Config
+from lnbits.user_manager import UserManager
 
+# TODO: make this a proper unit test
+# tests, temporarily here
 
-# tests, temporarily here, move to separate file later
 if __name__ == "__main__":
-    userinfo = get_users()
+    
+    c = Config(config_file="config.yml")
+    url = c.lnbits_url
+    headers = c.headers()
+    print(c.api_key)
+    print(c.headers())
+    
+    um = UserManager(url, headers)
+    userinfo = um.get_users()
     print(userinfo)
-
-    uid = '1edb7b765e8741dfae914ae250f89a63'
-    walletinfo = get_wallets(uid)
+    
+    uid = userinfo[0]['id']
+    walletinfo = um.get_wallets(uid)
     print(walletinfo)
 
-    wid = '67745574e65441ed8aa34de062d015b7'
-    txinfo = get_tx(wid)
+    wid = walletinfo[0]['id']
+    txinfo = um.get_tx(wid)
     print(txinfo)    
