@@ -1,4 +1,5 @@
-import requests
+from aiohttp.client import ClientSession
+import asyncio
 import logging
 
 '''
@@ -12,7 +13,6 @@ POST wallet
 DELETE user and their wallets
 DELETE wallet
 POST activate extension
-
 '''
 
 ###################################
@@ -22,44 +22,50 @@ logger = logging.getLogger(__name__)
 ###################################
 
 
-# TODO - REFACTOR FOR ASYNCIO, this is too slow
-
 class UserManager:
     def __init__(self,
                   lnbits_url: str=None, 
-                  headers: dict=None):
+                  headers: dict=None, 
+                  session: ClientSession = None):
         self._lnbits_url = lnbits_url
         self._headers = headers
-    
+        self._session = session
 
-    def get_users(self):
+
+    async def get_url(self, path):
+        async with self._session.get(path, headers=self._headers) as resp:
+            res = await resp.json()
+            return res
+
+
+    async def get_users(self):
         try:
             upath = "/usermanager/api/v1/users"
-            path = self._lnbits_url+upath
-            res = requests.get(path, headers=self._headers)
-            return res.json()
+            path = self._lnbits_url + upath
+            res = await self.get_url(path)
+            return res
         except Exception as e:
             logger.info(e)
             return e
 
 
-    def get_wallets(self, user_id):
+    async def get_wallets(self, user_id):
         try:
             wpath = "/usermanager/api/v1/wallets/" + user_id
             path = self._lnbits_url + wpath
-            res = requests.get(path, headers=self._headers)
-            return res.json()
+            res = await self.get_url(path)
+            return res
         except Exception as e:
             logger.info(e)
             return e
 
 
-    def get_tx(self, wallet_id):
+    async def get_tx(self, wallet_id):
         try:
             tpath = "/usermanager/api/v1/wallets" + wallet_id
             path = self._lnbits_url + tpath
-            res = requests.get(path, headers=self._headers)
-            return res.json()
+            res = await self.get_url(path)
+            return res
         except Exception as e:
             logger.info(e)
             return e
