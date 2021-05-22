@@ -21,19 +21,19 @@ async def main():
         userwallet = await uw.get_wallet_details()
         print(f'user wallet info : {userwallet}')
 
-        # works
-        payment_hash = "4493d1d2db45cfee4e705cf9dcad30bba7b2fa5b5ff112765b9ae82b33ac6797"
+        # works - update the hash for your test case
+        payment_hash = "edefef3766537446c70e51af9b414fb3b319baf515f1ff9852c0289eae3665a1"
         res = await uw.check_invoice(payment_hash)
         print(f'check invoice response: {res}')
 
-        # internal lnbits error with curl
-        body = {"out": False, "amount": 150, "memo": 'testcreate'}
-        res = await uw.create_invoice(False, 150, 'testcreate')
-        print(f'create invoice response: {res}\n\n')
+        # works
+        res = await uw.create_invoice(False, 150, "testcreate", "http://google.com")
+        print(f'\nCreate invoice RESPONSE: {res}\n\n')
 
         # pay an invoice - add balance and check
-        bolt = 'lnbc2u1ps2fdy2pp5gjfar5kmgh87unnstnuaetfshwnm97jmtlc3yajmnt5zkvavv7tsdqjw3jhxarfdemx76trv5cqzpgrzjq02snzwz4petaly54yzjkm358rqa5as9hkgydjvxxmvlpuk6dfd9cz0y2cqq0qsqqyqqqqlgqqqqqqgq9qsp5g0q0yqe8wyjs4cm7axu80s70drdftdzgrdwtryq9jz9sfttla7ks9qyyssqv9crlg6wqy33amn647u4cdq7g38sghjhnxvqwalzyz7q4slccvtydhjp85xan86e2jh8cem799ywcfk0gx6ttr57pyq9dlxkphagn6gpzz22s7'
-        body = {"out": True, "bolt11": bolt}
+        # TODO: needs admin key in the header
+        bolt = 'lnbc800n1ps23r2dpp5ahh77dmx2d6yd3cw2xheks20kwe3nwh4zhcllxzjcq5fat3kvkssdqsd9h8vmmfvdjk7mn9cqzpgrzjq02snzwz4petaly54yzjkm358rqa5as9hkgydjvxxmvlpuk6dfd9cz0y2cqq0qsqqyqqqqlgqqqqqqgq9qsp5cut63ftfcffwkrr2w9r50w5e40m93k3er75mc70ysxps7yercs9s9qyyssqs7qk3cz97nm5m6ehzedcxhttx87l7x5kk38gvwkzzv4lhrhddtqq3sk43nnvsddagf36ledw9vhlpqxuu5s53pj6sz926mwqxf8chsgp2m9j8w'
+        # body = {"out": True, "bolt11": bolt}
         res = await uw.pay_invoice(True, bolt)
         print(res)
 

@@ -1,5 +1,6 @@
 from aiohttp.client import ClientSession
 import logging
+import json
 
 '''
 Rest API methods for LNbits User Wallet
@@ -34,7 +35,8 @@ class UserWallet:
             return res
 
     async def post_url(self, path, body):
-        async with self._session.get(path, headers=self._headers, json=body) as resp:
+        async with self._session.post(path, headers=self._headers, data=body) as resp:
+            print(f'headers: {self._headers}\n')
             res = await resp.json()
             return res
 
@@ -50,12 +52,23 @@ class UserWallet:
             return e
 
 
-    async def create_invoice(self, direction: bool, amt: int, memo: str):
+    async def create_invoice(self, direction: bool, amt: int, memo: str, webhook: str):
+        '''
+        curl -X POST https://bits.bitcoin.org.hk/api/v1/payments 
+        -d '{"out": false, "amount": 100, "memo": "poo", "webhook": "http://google.com"}'
+        -H "X-Api-Key: f7f740104bba47e9ac9bb3fa......."  # only needs Invoice/read key
+        -H "Content-type: application/json"
+        '''
+
         try:
             upath = "/api/v1/payments"
             path = self._lnbits_url + upath
-            body = {"out": direction, "amount": amt, "memo": memo}
-            res = await self.post_url(path, body)
+            body = {"out": direction, 
+                    "amount": amt,
+                    "memo": memo, 
+                    "webhook": webhook}
+            j = json.dumps(body)
+            res = await self.post_url(path, j)
             return res
         except Exception as e:
             logger.info(e)
@@ -63,11 +76,18 @@ class UserWallet:
 
 
     async def pay_invoice(self, direction: bool, bolt11: str):
+        '''
+        curl -X POST https://bits.bitcoin.org.hk/api/v1/payments 
+        -d '{"out": true, "bolt11": <string>}' 
+        -H "X-Api-Key: b811bd2580a0431c96d3c4......"  # TODO: needs admin key!
+        -H "Content-type: application/json"
+        '''
         try:
             upath = "/api/v1/payments"
             path = self._lnbits_url + upath
             body = {"out": direction, "bolt11": bolt11}
-            res = await self.post_url(path, body)
+            j = json.dumps(body)
+            res = await self.post_url(path, j)
             return res
         except Exception as e:
             logger.info(e)
