@@ -29,7 +29,8 @@ async def main():
         wid = walletinfo[0]['id']
         txinfo = await um.get_tx(wid)
         print(f'User Manager - Tx info: {txinfo}\n')
-
+        
+    # TODO FINISH TESTS
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
