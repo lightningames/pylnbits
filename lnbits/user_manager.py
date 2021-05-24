@@ -1,5 +1,6 @@
 from aiohttp.client import ClientSession
 import logging
+from config import Config
 
 '''
 Rest API methods for LNbits User Manager Extension
@@ -26,11 +27,11 @@ logger = logging.getLogger(__name__)
 
 class UserManager:
     def __init__(self,
-                  lnbits_url: str=None, 
-                  headers: dict=None, 
+                  config:  Config = None,
                   session: ClientSession = None):
-        self._lnbits_url = lnbits_url
-        self._headers = headers
+        self._config = config
+        self._lnbits_url = config.lnbits_url
+        self._headers = config.headers()
         self._session = session
 
 

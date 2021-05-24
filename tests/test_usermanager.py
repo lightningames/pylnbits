@@ -11,23 +11,24 @@ async def main():
     
     c = Config(config_file="config.yml")
     url = c.lnbits_url
-    headers = c.headers()
+    print(f'url: {url}')
     print(f'api_key: {c.api_key}')
     print(f'headers: {c.headers()}')
     
     async with ClientSession() as session:
-        um = UserManager(url, headers, session)
+        um = UserManager(c, session)
         userinfo = await um.get_users()
-        print(f'userinfo : {userinfo}')
+        print(f'Test User Manager: userinfo: {userinfo}\n')
 
-        uid = userinfo[0]['id']
-        print(f'uid: {uid}')
-        walletinfo = await um.get_wallets(uid)
-        print(walletinfo)
+        for user in userinfo:
+            uid = user['id']
+            print(f'uid: {uid}')
+            walletinfo = await um.get_wallets(uid)
+            print(f'Test User Manager: get wallets: {walletinfo}\n')
 
         wid = walletinfo[0]['id']
         txinfo = await um.get_tx(wid)
-        print(txinfo)    
+        print(f'User Manager - Tx info: {txinfo}\n')
 
 
 loop = asyncio.get_event_loop()

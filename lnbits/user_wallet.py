@@ -1,6 +1,7 @@
 from aiohttp.client import ClientSession
 import logging
 import json
+from config import Config
 
 '''
 Rest API methods for LNbits User Wallet
@@ -21,12 +22,13 @@ logger = logging.getLogger(__name__)
 
 class UserWallet:
     def __init__(self,
-                  lnbits_url: str=None, 
-                  headers: dict=None, 
+                  config:  Config=None, 
                   session: ClientSession = None):
-        self._lnbits_url = lnbits_url
-        self._headers = headers
+        self._config = config
         self._session = session
+        self._headers = config.headers()
+        self._admin_headers = config.admin_headers()
+        self._lnbits_url = config.lnbits_url
 
 
     async def get_url(self, path):
@@ -34,9 +36,15 @@ class UserWallet:
             res = await resp.json()
             return res
 
-    async def post_url(self, path, body):
-        async with self._session.post(path, headers=self._headers, data=body) as resp:
-            print(f'headers: {self._headers}\n')
+    async def post_url(self, path, body, admin_key):
+        headers = self._headers
+        if admin_key:
+            headers = self._admin_headers
+        print('\nPost_Url in UserWallet')
+        print(f'headers: {self._headers}\n')
+        print(f'path: {path}')
+        print(f'headers: {headers}')
+        async with self._session.post(path, headers=headers, data=body) as resp:
             res = await resp.json()
             return res
 
@@ -44,6 +52,16 @@ class UserWallet:
     async def get_wallet_details(self):
         try:
             upath = "/api/v1/wallet"
+            path = self._lnbits_url + upath
+            res = await self.get_url(path)
+            return res
+        except Exception as e:
+            logger.info(e)
+            return e
+
+    async def check_invoice(self, hash: str):
+        try:
+            upath = "/api/v1/payments/" + hash
             path = self._lnbits_url + upath
             res = await self.get_url(path)
             return res
@@ -68,7 +86,7 @@ class UserWallet:
                     "memo": memo, 
                     "webhook": webhook}
             j = json.dumps(body)
-            res = await self.post_url(path, j)
+            res = await self.post_url(path, j, admin_key=False)
             return res
         except Exception as e:
             logger.info(e)
@@ -87,21 +105,13 @@ class UserWallet:
             path = self._lnbits_url + upath
             body = {"out": direction, "bolt11": bolt11}
             j = json.dumps(body)
-            res = await self.post_url(path, j)
+            print(f'body: {j}')
+            res = await self.post_url(path, j, admin_key=True)
             return res
         except Exception as e:
             logger.info(e)
             return e
 
 
-    async def check_invoice(self, hash: str):
-        try:
-            upath = "/api/v1/payments/" + hash
-            path = self._lnbits_url + upath
-            res = await self.get_url(path)
-            return res
-        except Exception as e:
-            logger.info(e)
-            return e
 
 
