@@ -12,7 +12,7 @@ async def main():
     c = Config(config_file="config.yml")
     url = c.lnbits_url
     print(f'url: {url}')
-    print(f'api_key: {c.api_key}')
+    print(f'in_key: {c.in_key}')
     print(f'headers: {c.headers()}')
     
     async with ClientSession() as session:
