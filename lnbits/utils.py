@@ -12,5 +12,5 @@ async def post_url(session, path, headers, body):
 
 async def delete_url(session, path, headers):
     async with session.delete(path, headers=headers) as resp:
-        res = await resp.json()
+        res = await resp.text()
         return res

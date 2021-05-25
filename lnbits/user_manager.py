@@ -91,7 +91,7 @@ class UserManager:
 
     async def delete_user(self, user_id):
         try:
-            tpath = " /usermanager/api/v1/users/" + user_id
+            tpath = "/usermanager/api/v1/users/" + user_id
             path = self._lnbits_url + tpath
             res = await delete_url(session=self._session, path=path, headers=self._headers)
             return res
@@ -113,7 +113,7 @@ class UserManager:
         try:
             tpath = "/usermanager/api/v1/extensions"
             path = self._lnbits_url + tpath
-            body = {"user_id": user_id, "extension": extension, "active": active}
+            body = {"userid": user_id, "extension": extension, "active": active}
             jbody = json.dumps(body)
             res = await post_url(session=self._session, path=path, headers=self._headers, body=jbody)
             return res
