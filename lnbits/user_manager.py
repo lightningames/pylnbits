@@ -1,10 +1,12 @@
-from aiohttp.client import ClientSession
-import logging
-from config import Config
-from lnbits.utils import get_url, post_url, delete_url
 import json
+import logging
 
-'''
+from aiohttp.client import ClientSession
+
+# from config import Config
+from lnbits.utils import delete_url, get_url, post_url
+
+"""
 Rest API methods for LNbits User Manager Extension
 
 GET users
@@ -16,19 +18,17 @@ POST user + initial wallet
 DELETE user and their wallets
 DELETE wallet
 POST activate extension
-'''
+"""
 
 ###################################
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logging.getLogger('lnbot').setLevel(level=logging.WARNING)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.getLogger("lnbot").setLevel(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 ###################################
 
 
 class UserManager:
-    def __init__(self,
-                  config:  Config = None,
-                  session: ClientSession = None):
+    def __init__(self, config, session: ClientSession = None):
         self._config = config
         self._lnbits_url = config.lnbits_url
         self._headers = config.headers()
@@ -120,5 +120,3 @@ class UserManager:
         except Exception as e:
             logger.info(e)
             return e
-
-

@@ -1,4 +1,4 @@
-'''
+"""
 Rest API methods for DJ Livestream
 
 - List livestream links
@@ -6,5 +6,4 @@ Rest API methods for DJ Livestream
 - Update fee
 - Add track
 - Delete a withdraw link
-'''
-
+"""
