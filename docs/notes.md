@@ -1,4 +1,4 @@
-[setup.py](https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder)
+[setup.py](https://stackoverflow.com/a/50194143)
 
 [configparser](https://docs.python.org/3/library/configparser.html)
 
