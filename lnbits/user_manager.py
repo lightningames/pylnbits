@@ -3,7 +3,6 @@ import logging
 
 from aiohttp.client import ClientSession
 
-# from config import Config
 from lnbits.utils import delete_url, get_url, post_url
 
 """

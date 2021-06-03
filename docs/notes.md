@@ -5,3 +5,5 @@
 [awesome setup](https://www.laac.dev/blog/automating-convention-linting-formatting-python/)
 
 [copy pipeline](https://github.com/CoinAlpha/hummingbot/blob/master/.github/workflows/workflow.yml)
+
+[pre-commit hooks](https://github.com/laactech/pre-commit-config-latest)
