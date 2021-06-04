@@ -1,4 +1,7 @@
 import asyncio
+import sys; sys.path.insert(0, realpath(join(__file__, "../../")))
+
+from os.path import join, realpath
 
 from aiohttp.client import ClientSession
 
