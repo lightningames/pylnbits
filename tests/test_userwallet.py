@@ -1,5 +1,4 @@
 import asyncio
-import sys
 
 from aiohttp.client import ClientSession
 
