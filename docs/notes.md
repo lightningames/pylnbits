@@ -11,3 +11,5 @@
 [mypy config](https://mypy.readthedocs.io/en/stable/config_file.html#confval-disallow_untyped_calls)
 
 [more mypy](https://breadcrumbscollector.tech/mypy-how-to-use-it-in-my-project/)
+
+[pyPi publishing best practices](https://towardsdatascience.com/deep-dive-create-and-publish-your-first-python-library-f7f618719e14)
