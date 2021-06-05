@@ -1,7 +1,5 @@
 import asyncio
-
 from aiohttp.client import ClientSession
-
 from config import Config
 from lnbits.user_manager import UserManager
 
