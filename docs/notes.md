@@ -13,3 +13,7 @@
 [more mypy](https://breadcrumbscollector.tech/mypy-how-to-use-it-in-my-project/)
 
 [pyPi publishing best practices](https://towardsdatascience.com/deep-dive-create-and-publish-your-first-python-library-f7f618719e14)
+
+[packaging] (https://packaging.python.org/tutorials/packaging-projects/)
+ - *** ALWAYS *** Test PyPI first before releasing on official site
+ - TODO: Automate Version numbers in setup.py
