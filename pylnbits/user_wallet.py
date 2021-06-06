@@ -3,7 +3,7 @@ import logging
 
 from aiohttp.client import ClientSession
 
-from lnbits.utils import get_url, post_url
+from pylnbits.utils import get_url, post_url
 
 """
 Rest API methods for LNbits User Wallet
@@ -17,7 +17,7 @@ Rest API methods for LNbits User Wallet
 """
 ###################################
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logging.getLogger("lnbot").setLevel(level=logging.WARNING)
+logging.getLogger("pylnbits").setLevel(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 ###################################
 
