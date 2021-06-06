@@ -14,8 +14,10 @@ class Config:
         try:
             if in_key or admin_key or lnbits_url is None:
                 path = os.getcwd()
+                # print(path)
+                # TODO implement a better config locator
                 config_file = path + "/config.yml"
-                print(config_file)
+                print(f'grabbing config file from : {config_file}')
 
             with open(config_file, "rb") as f:
                 cfile = safe_load(f)

@@ -16,6 +16,9 @@ pip install -e .
 Check linting and formatting
 `pre-commit run -a`
 
+Build for distribution
+`python3 -m build`
+
 Run Tests
 
 ```

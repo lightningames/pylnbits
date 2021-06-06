@@ -132,3 +132,7 @@ dmypy.json
 # config files
 config.yml
 scratch
+
+# pypi 
+.pypirc
+.pypirc-test
