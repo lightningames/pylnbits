@@ -3,7 +3,7 @@ import asyncio
 from aiohttp.client import ClientSession
 
 from config import Config
-from lnbits.user_wallet import UserWallet
+from pylnbits.user_wallet import UserWallet
 
 # TODO: make this a proper unit test with pytest
 
