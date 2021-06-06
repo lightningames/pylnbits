@@ -17,3 +17,6 @@
 [packaging] (https://packaging.python.org/tutorials/packaging-projects/)
  - *** ALWAYS *** Test PyPI first before releasing on official site
  - TODO: Automate Version numbers in setup.py
+
+[documenting](https://realpython.com/documenting-python-code/#documenting-your-python-projects)
+- Read the Docs is nice but there are also others to consider.
