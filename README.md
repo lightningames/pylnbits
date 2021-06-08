@@ -1,6 +1,7 @@
 # pylnbits
 
-An asyncio/aiohttp python library of methods for accessing lnbits.com API or your own install. For use when building front end projects to lnbits.com extensions. 
+
+An asyncio/aiohttp python library of methods for accessing [lnbits](https://github.com/lnbits/lnbits/) API or your own install. For use when building front end projects to lnbits extensions. 
 
 Getting Started
 
