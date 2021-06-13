@@ -136,3 +136,4 @@ scratch
 # pypi 
 .pypirc
 .pypirc-test
+.pypirc*
