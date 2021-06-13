@@ -1,13 +1,12 @@
 from setuptools import find_packages, setup
 
-<<<<<<< HEAD
 setup(
     name="pylnbits-LNGAMES",
     version="0.0.1",
     package_dir={"": "pylnbits"},
     packages=find_packages(where="pylnbits"), 
     python_requires=">=3.8",)
-=======
+
 VERSION = "0.0.2"
 
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -37,4 +36,3 @@ setup(
     include_package_data=True,
     python_requires=">=3.8",
 )
->>>>>>> 488a13bade9b725cb5ab1886c1f66fab84a12269
