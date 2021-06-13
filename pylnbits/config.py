@@ -17,7 +17,7 @@ class Config:
                 # print(path)
                 # TODO implement a better config locator
                 config_file = path + "/config.yml"
-                print(f'grabbing config file from : {config_file}')
+                print(f"grabbing config file from : {config_file}")
 
             with open(config_file, "rb") as f:
                 cfile = safe_load(f)

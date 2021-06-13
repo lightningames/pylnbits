@@ -4,8 +4,9 @@ setup(
     name="pylnbits-LNGAMES",
     version="0.0.1",
     package_dir={"": "pylnbits"},
-    packages=find_packages(where="pylnbits"), 
-    python_requires=">=3.8",)
+    packages=find_packages(where="pylnbits"),
+    python_requires=">=3.8",
+)
 
 VERSION = "0.0.2"
 
