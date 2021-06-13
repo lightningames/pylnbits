@@ -132,3 +132,5 @@ dmypy.json
 # config files
 config.yml
 scratch
+.pypirc
+.pypirc*
