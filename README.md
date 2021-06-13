@@ -1,6 +1,7 @@
 # pylnbits
 
-python library of methods for accessing lnbits.com API or your own install.
+
+An asyncio/aiohttp python library of methods for accessing [lnbits](https://github.com/lnbits/lnbits/) API or your own install. For use when building front end projects to lnbits extensions. 
 
 Getting Started
 
@@ -13,8 +14,17 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
+Library Installation
+
+```
+pip install pylnbits-lngames
+````
+
 Check linting and formatting
 `pre-commit run -a`
+
+Build for distribution
+`python3 -m build`
 
 Run Tests
 
