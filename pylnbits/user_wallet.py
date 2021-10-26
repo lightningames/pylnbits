@@ -12,7 +12,13 @@ Rest API methods for LNbits User Wallet
 - Get wallet details
 - Create an invoice (incoming)
 - Pay an invoice (outgoing)
+- Decode an invoice (new)
 - Check an invoice (incoming or outgoing)
+- Get invoices (incoming or outgoing) (new)
+- Get invoice(s) by memo (incoming or outgoing (new) 
+
+- Drain Funds LNURL-withdraw QR code (new)
+- Export to Phone with QR Code (new)
 
 """
 ###################################
