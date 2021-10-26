@@ -13,6 +13,7 @@ GET wallets
 GET transactions
 POST wallet
 POST user + initial wallet
+POST wallet (new)
 
 DELETE user and their wallets
 DELETE wallet
