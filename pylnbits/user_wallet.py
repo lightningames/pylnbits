@@ -12,8 +12,9 @@ Rest API methods for LNbits User Wallet
 - Get wallet details
 - Create an invoice (incoming)
 - Pay an invoice (outgoing)
-- Decode an invoice (new) todo
 - Check an invoice (incoming or outgoing)
+
+- Decode an invoice (new) todo
 - Get invoices (incoming or outgoing) (new) todo
 - Get invoice(s) by memo (incoming or outgoing (new)  todo
 
