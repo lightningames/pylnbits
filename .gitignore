@@ -137,3 +137,5 @@ scratch
 .pypirc
 .pypirc-test
 .pypirc*
+*~
+*.txt
