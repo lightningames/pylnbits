@@ -1,4 +1,5 @@
 
+'''
 enable extension for this user 
 link : 
 
@@ -15,3 +16,5 @@ Body (application/json)
 {"description": <string> "amount": <integer> "max": <integer> "min": <integer> "comment_chars": <integer>}
 Returns 201 CREATED (application/json)
 {"lnurl": <string>}
+
+'''
