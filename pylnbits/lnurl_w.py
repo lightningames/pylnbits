@@ -2,7 +2,7 @@ import json
 import logging
 
 from aiohttp.client import ClientSession
-from lnbits.utils import delete_url, get_url, post_url
+from pylnbits.utils import delete_url, get_url, post_url
 
 """
 Rest API methods for LNbits LNURLw Withdraw Extension

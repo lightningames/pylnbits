@@ -41,10 +41,12 @@ class Config:
     def lnbits_url(self):
         return self._lnbits_url
 
+    # invoice key
     def headers(self):
         data = {"X-Api-Key": self._in_key, "Content-type": "application/json"}
         return data
 
+    # admin key 
     def admin_headers(self):
         data = {"X-Api-Key": self._admin_key, "Content-type": "application/json"}
         return data
