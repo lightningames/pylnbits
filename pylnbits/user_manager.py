@@ -9,11 +9,11 @@ from pylnbits.utils import delete_url, get_url, post_url
 Rest API methods for LNbits User Manager Extension
 
 GET users
+GET user (single user)
 GET wallets
 GET transactions
 POST wallet
 POST user + initial wallet
-POST wallet (new)
 
 DELETE user and their wallets
 DELETE wallet
@@ -35,6 +35,7 @@ class UserManager:
         self._admin_headers = config.admin_headers()
         self._session = session
 
+    # returns JSON list of users
     async def get_users(self):
         try:
             upath = "/usermanager/api/v1/users"
@@ -44,7 +45,19 @@ class UserManager:
         except Exception as e:
             logger.info(e)
             return e
-
+       
+    # returns single JSON user based on user_id
+    async def get_user(self, user_id):
+        try:
+            upath = "/usermanager/api/v1/users/" + user_id
+            path = self._lnbits_url + upath
+            res = await get_url(session=self._session, path=path, headers=self._headers)
+            return res
+        except Exception as e:
+            logger.info(e)
+            return e
+            
+    # returns JSON wallet data
     async def get_wallets(self, user_id):
         try:
             wpath = "/usermanager/api/v1/wallets/" + user_id
@@ -55,6 +68,7 @@ class UserManager:
             logger.info(e)
             return e
 
+    # returns JSON of wallet transactions
     async def get_tx(self, wallet_id):
         try:
             tpath = "/usermanager/api/v1/wallets" + wallet_id
@@ -65,6 +79,7 @@ class UserManager:
             logger.info(e)
             return e
 
+    # creates a user and initial wallet
     async def post_user_initial(self, admin_id, user_name, wallet_name):
         try:
             tpath = "/usermanager/api/v1/users"
@@ -77,6 +92,9 @@ class UserManager:
             logger.info(e)
             return e
 
+    # returns 201 CREATED 
+    # {"id": <string>, "admin": <string>, "name": <string>, 
+    # "user": <string>, "adminkey": <string>, "inkey": <string>}
     async def post_wallet(self, user_id, wallet_name, admin_id):
         try:
             tpath = "/usermanager/api/v1/wallets"
