@@ -1,14 +1,14 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="pylnbits-LNGAMES",
-    version="0.0.1",
+    name="pylnbits",
+    version="0.0.3",
     package_dir={"": "pylnbits"},
     packages=find_packages(where="pylnbits"),
     python_requires=">=3.8",
 )
 
-VERSION = "0.0.2"
+VERSION = "0.0.3"
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -16,9 +16,9 @@ with open("README.md", "r", encoding="utf-8") as fh:
 install_requires = open("requirements.txt").readlines()
 
 setup(
-    name="pylnbits-lngames",
+    name="pylnbits",
     version=VERSION,
-    author="bitkarrot, coinguybri",
+    author="bitkarrot",
     description="python library for lnbits",
     maintainer="Lightning Games",
     long_description=long_description,
