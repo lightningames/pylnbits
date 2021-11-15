@@ -27,7 +27,7 @@ class LnurlPay:
     def __init__(self, config, session: ClientSession = None):
         self._config = config
         self._lnbits_url = config.lnbits_url
-        self._headers = config.headers()
+        self._invoice_headers = config.invoice_headers()
         self._admin_headers = config.admin_headers()
         self._session = session
         self._upath = "/lnurlp/api/v1/links"
@@ -39,7 +39,7 @@ class LnurlPay:
         """
         try:
             path = self._lnbits_url + self._upath
-            res = await get_url(self._session, path, self._headers)
+            res = await get_url(self._session, path, self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -53,7 +53,7 @@ class LnurlPay:
         """
         try:
             path = self._lnbits_url + self._upath + "/" + pay_id
-            res = await get_url(self._session, path, self._headers)
+            res = await get_url(self._session, path, self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -62,8 +62,8 @@ class LnurlPay:
     async def create_paylink(self, body: str):
         """
         GET /lnurlp/api/v1/links
-        
-        Body (application/json) 
+
+        Body (application/json)
         {"description": <string> "amount": <integer> "max": <integer>
          "min": <integer> "comment_chars": <integer>}
 
@@ -81,8 +81,8 @@ class LnurlPay:
     async def update_paylink(self, pay_id: str, body: str):
         """
         GET /lnurlp/api/v1/links/<pay_id>
-        
-        Body (application/json) 
+
+        Body (application/json)
         {"description": <string> "amount": <integer>}
 
         Returns Returns 200 OK app/json
@@ -99,7 +99,7 @@ class LnurlPay:
     async def delete_paylink(self, pay_id: str):
         """
         GET /lnurlp/api/v1/links/<pay_id>
-        
+
         Returns Returns 204 NO CONTENT
         """
         try:

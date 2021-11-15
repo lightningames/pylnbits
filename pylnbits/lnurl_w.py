@@ -2,6 +2,7 @@ import json
 import logging
 
 from aiohttp.client import ClientSession
+
 from pylnbits.utils import delete_url, get_url, post_url
 
 """
@@ -31,15 +32,15 @@ class LnurlWithdraw:
     def __init__(self, config, session: ClientSession = None):
         self._config = config
         self._lnbits_url = config.lnbits_url
-        self._headers = config.headers()
+        self._invoice_headers = config.invoice_headers()
         self._admin_headers = config.admin_headers()
         self._session = session
 
     async def get_hash_check(self, hash: str, lnurl_id: str):
         """
         GET /withdraw/api/v1/links/<the_hash>/<lnurl_id>
-        
-        Headers {"X-Api-Key": <invoice_key>} 
+
+        Headers {"X-Api-Key": <invoice_key>}
 
         Returns 201 CREATED (application/json)
         {"status": <bool>}
@@ -47,7 +48,7 @@ class LnurlWithdraw:
         try:
             upath = "/withdraw/api/v1/links/"
             path = self._lnbits_url + upath + hash + "/" + lnurl_id
-            res = await get_url(self._session, path=path, headers=self._headers)
+            res = await get_url(self._session, path=path, headers=self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -60,7 +61,7 @@ class LnurlWithdraw:
         try:
             upath = "/withdraw/img/"
             path = self._lnbits_url + upath + lnurl_id
-            res = await get_url(self._session, path=path, headers=self._headers)
+            res = await get_url(self._session, path=path, headers=self._invoice_headers)
             # may not need headers
             return res
         except Exception as e:
