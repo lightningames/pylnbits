@@ -26,7 +26,7 @@ Check linting and formatting
 `pre-commit run -a`
 
 Build for distribution
-`python3 -m build`
+`python3 setup.py build`
 
 Run Tests
 
