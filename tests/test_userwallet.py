@@ -6,7 +6,12 @@ from pylnbits.config import Config
 from pylnbits.user_wallet import UserWallet
 
 # TODO: make this a proper unit test with pytest
-
+"""
+Tests: 
+ decode an invoice - done
+ Get invoices (incoming or out) - todo - test!
+ Get invoice(s) by memo (incoming or out) - todo - test!
+"""
 
 async def main():
 
