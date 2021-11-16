@@ -14,12 +14,19 @@ Rest API methods for LNbits User Wallet
 - Pay an invoice (outgoing)
 - Check an invoice (incoming or outgoing)
 
-- Decode an invoice (new) todo
-- Get invoices (incoming or outgoing) (new) todo
-- Get invoice(s) by memo (incoming or outgoing (new)  todo
+- Decode an invoice (new)
+- Get invoices (incoming or outgoing) (new) 
+- Get invoice(s) by memo (incoming or outgoing (new) 
 
 - Drain Funds LNURL-withdraw QR code (?) 
 - Export to Phone with QR Code (?) 
+
+TODO - merge in updated code from other repo 
+
+ decode an invoice - done
+ Get invoices (incoming or out) - todo - test!
+ Get invoice(s) by memo (incoming or out) - todo - test!
+ add return types and check
 
 """
 ###################################
@@ -144,7 +151,7 @@ class UserWallet:
             logger.info(e)
             return e
 
-    def get_payurl(self, email: str) -> str:
+    def get_payurl(self, email: str):
         """
         Construct Lnurlp link from email address provided.
         """
@@ -156,7 +163,7 @@ class UserWallet:
             print("Transformed URl: " + transform_url)
             return transform_url
         except Exception as e:
-            print("Exception, possibly malformed LN Address: " + e)
+            print("Exception, possibly malformed LN Address: " + str(e))
 
     async def get_bolt11(self, email: str, amount: int):
         """
@@ -170,7 +177,7 @@ class UserWallet:
         """
         try:
             purl = self.get_payurl(email)
-            res = await get_url(self._session, path=purl)
+            res = await get_url(self._session, path=purl, headers=self._invoice_headers)
             # res =  requests.get(purl)
             json_content = res.json()
             lnurlpay = json_content["callback"]
@@ -180,7 +187,7 @@ class UserWallet:
 
             # get bech32-serialized lightning invoice
             # ln_res =  requests.get(payquery)
-            ln_res = await get_url(self._session, path=payquery)
+            ln_res = await get_url(self._session, path=payquery, headers=self._invoice_headers)
             pr_dict = ln_res.json()
             # check keys returned for status
             if "status" in pr_dict:
@@ -190,7 +197,7 @@ class UserWallet:
                 bolt11 = pr_dict["pr"]
                 return bolt11
         except Exception as e:
-            print("Exception as: " + e)
+            print("Exception as: ", str(e))
             return e
 
     async def get_decoded(self, bolt11: str):
@@ -266,13 +273,3 @@ class UserWallet:
             return e
 
 
-"""
- todo: 
- 
- decode an invoice - done
-
- Get invoices (incoming or out) - todo - test!
- Get invoice(s) by memo (incoming or out) - todo - test!
-
- add return types and check
-"""

@@ -5,6 +5,7 @@ Integrates with Blue Wallet, Zeus
 """
 # todo: check that extension is enabled
 
+
 class LndHub:
     def __init__(self, config):
         self._invoice_key = config.in_key

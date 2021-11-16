@@ -10,9 +10,10 @@ async def get_url(session, path, headers) -> str:
     aiohttp: for use with GET requests
     """
     async with session.get(path, headers=headers) as resp:
-        #res = await resp.read()
+        # res = await resp.read()
         res = await resp.json()
         return res
+
 
 # return as text response
 async def get_url_resp(session, path, headers):
@@ -21,7 +22,7 @@ async def get_url_resp(session, path, headers):
         return res
 
 
-async def post_jurl(session, path, headers, json) -> json:
+async def post_jurl(session, path, headers, json):
     """
     aiohttp: for use with JSON in POST requests
     """
@@ -30,7 +31,7 @@ async def post_jurl(session, path, headers, json) -> json:
         return res
 
 
-async def post_url(session, path, headers, body) -> json:
+async def post_url(session, path, headers, body):
     """
     aiohttp: for use with BODY in POST requests
     """

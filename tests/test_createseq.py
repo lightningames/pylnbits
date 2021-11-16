@@ -22,3 +22,4 @@ test sequence:
 - export to wallet
 
 """
+# user_name and wallet_name is telegram username
