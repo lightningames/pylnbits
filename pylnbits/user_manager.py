@@ -80,7 +80,11 @@ class UserManager:
             return e
 
     # creates a user and initial wallet
+    # TODO add  email and password optional
+    # {"admin_id": <string>, "user_name": <string>, "wallet_name": <string>,
+    # "email": <Optional string> ,"password": <Optional string>}
     async def post_user_initial(self, admin_id, user_name, wallet_name):
+
         try:
             tpath = "/usermanager/api/v1/users"
             path = self._lnbits_url + tpath
@@ -92,6 +96,7 @@ class UserManager:
             logger.info(e)
             return e
 
+    # body = {"user_id": <string>, "wallet_name": <string>, "admin_id": <string>}
     # returns 201 CREATED
     # {"id": <string>, "admin": <string>, "name": <string>,
     # "user": <string>, "adminkey": <string>, "inkey": <string>}
@@ -127,6 +132,9 @@ class UserManager:
             logger.info(e)
             return e
 
+    # temporarily use this to activate extensions:
+    # https://yourdomain.com/extensions?usr=89.....&enable=lnurlp
+    # unclear why curl doesn't work ?
     async def post_activate_ext(self, user_id: str, extension: str, active: int):
         try:
             tpath = "/usermanager/api/v1/extensions"

@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name="pylnbits",
+    name="pylnbits-LNGAMES",
     version="0.0.3",
     package_dir={"": "pylnbits"},
     packages=find_packages(where="pylnbits"),
@@ -16,7 +16,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 install_requires = open("requirements.txt").readlines()
 
 setup(
-    name="pylnbits",
+    name="pylnbits-lngames",
     version=VERSION,
     author="bitkarrot",
     description="python library for lnbits",
