@@ -40,6 +40,15 @@ async def post_url(session, path, headers, body):
         return res
 
 
+async def put_url(session, path, headers, body):
+    """
+    aiohttp: for use with BODY in PUT requests
+    """
+    async with session.put(url=path, headers=headers, data=body) as resp:
+        res = await resp.json()
+        return res
+
+
 async def delete_url(session, path, headers) -> str:
     """
     aiohttp: for use with DELETE requests
@@ -47,3 +56,5 @@ async def delete_url(session, path, headers) -> str:
     async with session.delete(path, headers=headers) as resp:
         res = await resp.text()
         return res
+
+# not defined: session.head, session.options, session.patch

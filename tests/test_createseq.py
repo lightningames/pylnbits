@@ -2,9 +2,8 @@
 test sequence:
 
 1. create a user with user manager w/initial wallet.
-   save user id, admin key, invoice key to db, connect data w/ TG username
-2. activate lnurlp and lnurlw on new user
-3. activate lndhub extension
+2. save user id, admin key, invoice key to db, connect data w/ TG username
+3. activate lnurlp, lnurlw, lndhub extension on new user
 
 - check balance
 - receive by 
@@ -16,9 +15,9 @@ test sequence:
 - send by 
       - lnurlw link (laisee)
       - LN address: user@domain.com
-      - laisee send. 
-- check balance
+      - laisee send.
 
+- check balance
 - export to wallet
 
 """

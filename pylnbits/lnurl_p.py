@@ -3,7 +3,7 @@ import logging
 
 from aiohttp.client import ClientSession
 
-from pylnbits.utils import delete_url, get_url, post_url
+from pylnbits.utils import delete_url, get_url, post_url, put_url
 
 """
 Rest API methods for LNbits LNURLp Pay Extension
@@ -90,7 +90,7 @@ class LnurlPay:
         """
         try:
             path = self._lnbits_url + self._upath + "/" + pay_id
-            res = await post_url(self._session, path=path, headers=self._admin_headers, body=json.dumps(body))
+            res = await put_url(self._session, path=path, headers=self._admin_headers, body=json.dumps(body))
             return res
         except Exception as e:
             logger.info(e)
