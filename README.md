@@ -3,7 +3,7 @@
 
 An asyncio/aiohttp python library of methods for accessing [lnbits](https://github.com/lnbits/lnbits/) API or your own install. For use when building front end or app layer projects with lnbits. 
 
-Getting Started
+## Getting Started
 
 version at least python3.8
 
@@ -16,17 +16,32 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-Library Installation
+This is experimental software. The only modules & Extensions covered presently are: 
+
+- User Wallet 
+- User Manager
+- LNURLp
+- LNURLw
+- LndHub
+
+If you would like to contribute, please feel free to make a pull request. 
+
+
+## Library Installation
 
 ```
 pip install pylnbits-lngames
 ````
+
+## Other
 
 Check linting and formatting
 `pre-commit run -a`
 
 Build for distribution
 `python3 setup.py build`
+
+
 
 Run Tests
 
