@@ -19,7 +19,7 @@ pip install -e .
 Library Installation
 
 ```
-pip install pylnbits
+pip install pylnbits-lngames
 ````
 
 Check linting and formatting
