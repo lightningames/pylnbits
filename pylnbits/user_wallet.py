@@ -22,12 +22,6 @@ Rest API methods for LNbits User Wallet
 - Export to Phone with QR Code (?) 
 
 TODO - merge in updated code from other repo 
-
- decode an invoice - done
- Get invoices (incoming or out) - todo - test!
- Get invoice(s) by memo (incoming or out) - todo - test!
- add return types and check
-
 """
 ###################################
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
