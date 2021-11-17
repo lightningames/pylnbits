@@ -6,7 +6,6 @@ from aiohttp.client import ClientSession
 from pylnbits.config import Config
 from pylnbits.lnurl_p import LnurlPay
 
-import json
 # TODO: make this a proper unit test with pytest
 
 async def main():
