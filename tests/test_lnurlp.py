@@ -41,8 +41,12 @@ async def main():
         pay_id = newlink['id']
 
         # update newly created link above
+        # all body fields are required
         body = {"description": "update auto paylink",
-                "amount": 150}
+                "amount": 150, 
+                "max": 10000,
+                "min": 100,
+                "comment_chars": 100}
         update_result = await lw.update_paylink(pay_id=str(pay_id), body=body)
         print(f'update pay link with intial id: {pay_id}, body: {body} \n result: {update_result}\n\n')
 
