@@ -3,7 +3,7 @@ import logging
 
 from aiohttp.client import ClientSession
 
-from pylnbits.utils import delete_url, get_url, post_url, put_url
+from pylnbits.utils import delete_url, put_url, get_url, get_url_resp, post_url
 
 """
 Rest API methods for LNbits LNURLw Withdraw Extension
@@ -86,7 +86,8 @@ class LnurlWithdraw:
             return res
         except Exception as e:
             logger.info(e)
-            return e
+            return str(e)
+
 
     # Update a withdraw link 
     async def update_withdrawlink(self, withdraw_id: str, body: str):
@@ -151,8 +152,7 @@ class LnurlWithdraw:
         try:
             upath = "/withdraw/img/"
             path = self._lnbits_url + upath + lnurl_id
-            res = await get_url(self._session, path=path, headers=self._invoice_headers)
-            # may not need headers
+            res = await get_url_resp(self._session, path=path, headers=self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)

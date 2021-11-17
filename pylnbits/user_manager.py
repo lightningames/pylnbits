@@ -13,7 +13,7 @@ GET user (single user)
 GET wallets
 GET transactions
 POST wallet
-POST user + initial wallet - add email and password fields! - todo + test
+POST user + initial wallet - ( add email and password fields! - test is todo item)
 
 DELETE user and their wallets
 DELETE wallet
