@@ -40,6 +40,10 @@ class UserWallet:
         self.paypath = "/api/v1/payments"
         self.walletpath = "/api/v1/wallet"
 
+    @property
+    def config(self):
+        return self._config
+
     async def get_wallet_details(self):
         """
         GET /api/v1/wallet
