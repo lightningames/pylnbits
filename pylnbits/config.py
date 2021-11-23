@@ -4,7 +4,10 @@ from yaml import safe_load
 
 
 class Config:
-    def __init__(self, config_file: str = "", in_key: str = None, admin_key: str = None, lnbits_url: str = None):
+    def __init__(self, config_file: str = "",
+                        in_key: str = None, 
+                        admin_key: str = None, 
+                        lnbits_url: str = None):
 
         self._config_file = config_file
         self._in_key = in_key
@@ -12,23 +15,18 @@ class Config:
         self._admin_key = admin_key
 
         try:
-            if in_key or admin_key or lnbits_url is None:
-                path = os.getcwd()
-                print(path)
-                # TODO FIX!!!!!!!implement a better config locator
-                config_file = path + "/config.yml"
-                print(f"grabbing config file from : {config_file}")
-
-            with open(config_file, "rb") as f:
-                cfile = safe_load(f)
-                print(cfile)
-            f.close()
-            ## doesn't work- fix this
+            if config_file:
+                with open(config_file, "rb") as f:
+                    cfile = safe_load(f)
+                    print(cfile)
+                f.close()
+            # add file error checking
             self._in_key = cfile["in_key"]
             self._lnbits_url = cfile["lnbits_url"]
             self._admin_key = cfile["admin_key"]
         except Exception as e:
             print(e)
+            return e
 
     @property
     def in_key(self):
@@ -62,6 +60,7 @@ if __name__ == "__main__":
     c = Config(config_file="/Users/bitcarrot/laisee/pylnbits/config.yml")
 
     print(c.in_key)
+    print(c.admin_key)
     print(c.lnbits_url)
     print(c.headers())
     print(c.invoice_headers())
