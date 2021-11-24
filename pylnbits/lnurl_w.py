@@ -78,7 +78,16 @@ class LnurlWithdraw:
         "wait_time": <integer>, "is_unique": <boolean>}
 
         Returns Returns 201 CREATED app/json
-        {"lnurl": <string>}
+        {"id": < string> , "is_unique": <boolean>, "k1": <str>, 
+        "lnurl": <string>, "max_withdrawable": <int>, 
+        "min_withdrawable": <int>, "number": <int>,
+        "open_time": <int>, "title": <str>, "unique_hash": <str>, 
+        "used": <int>, "uses": <int>, "usescsv": <str>, 
+        "wait_time": <int>, "wallet": <str> "}
+
+        Batch Print Page link: https://<lnbits-url>/withdraw/print/<id>
+        Shareable link for single QR: https://<lnbits-url>/withdraw/<id>
+
         """
         try:
             path = self._lnbits_url + self._upath
@@ -144,6 +153,7 @@ class LnurlWithdraw:
         except Exception as e:
             logger.info(e)
             return e
+
 
     async def get_image_embed(self, lnurl_id: str):
         """
