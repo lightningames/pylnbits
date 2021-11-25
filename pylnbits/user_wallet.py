@@ -149,55 +149,6 @@ class UserWallet:
             logger.info(e)
             return e
 
-    def get_payurl(self, email: str):
-        """
-        Construct Lnurlp link from email address provided.
-        """
-        try:
-            parts = email.split("@")
-            domain = parts[1]
-            username = parts[0]
-            transform_url = "http://" + domain + "/.well-known/lnurlp/" + username
-            print("Transformed URl: " + transform_url)
-            return transform_url
-        except Exception as e:
-            print("Exception, possibly malformed LN Address: " + str(e))
-
-    async def get_bolt11(self, email: str, amount: int):
-        """
-        fail state
-        {'reason': 'Amount 100 is smaller than minimum 100000.', 'status': 'ERROR'}
-
-        success state
-        {'pr': 'lnbc1......azgfe0',
-        'routes': [], 'successAction': {'description': 'Thanks love for the lightning!',
-        'tag': 'url', 'url': 'https:/.......'}}
-        """
-        try:
-            purl = self.get_payurl(email)
-            res = await get_url(self._session, path=purl, headers=self._invoice_headers)
-            # res =  requests.get(purl)
-            json_content = res.json()
-            lnurlpay = json_content["callback"]
-
-            millisats = amount * 1000
-            payquery = lnurlpay + "?amount=" + str(millisats)
-
-            # get bech32-serialized lightning invoice
-            # ln_res =  requests.get(payquery)
-            ln_res = await get_url(self._session, path=payquery, headers=self._invoice_headers)
-            pr_dict = ln_res.json()
-            # check keys returned for status
-            if "status" in pr_dict:
-                reason = pr_dict["reason"]
-                return reason
-            elif "pr" in pr_dict:
-                bolt11 = pr_dict["pr"]
-                return bolt11
-        except Exception as e:
-            print("Exception as: ", str(e))
-            return e
-
     async def get_decoded(self, bolt11: str):
         """
         POST /api/v1/payments/decode
@@ -270,4 +221,55 @@ class UserWallet:
             logger.info(e)
             return e
 
+# from lnaddress
+    def get_payurl(self, email: str):
+        """
+        Construct Lnurlp link from email address provided.
+        """
+        try:
+            parts = email.split("@")
+            domain = parts[1]
+            username = parts[0]
+            transform_url = "http://" + domain + "/.well-known/lnurlp/" + username
+            print("Transformed URl: " + transform_url)
+            return transform_url
+        except Exception as e:
+            print("Exception, possibly malformed LN Address: " + str(e))
 
+# from lnaddress
+    async def get_bolt11(self, email: str, amount: int):
+        """
+        fail state
+        {'reason': 'Amount 100 is smaller than minimum 100000.', 'status': 'ERROR'}
+
+        success state
+        {'pr': 'lnbc1......azgfe0',
+        'routes': [], 'successAction': {'description': 'Thanks love for the lightning!',
+        'tag': 'url', 'url': 'https:/.......'}}
+        """
+        try:
+            purl = self.get_payurl(email)
+            res = await get_url(self._session, path=purl, headers=self._invoice_headers)
+            # res =  requests.get(purl)
+            json_content = res.json()
+            lnurlpay = json_content["callback"]
+
+            millisats = amount * 1000
+            payquery = lnurlpay + "?amount=" + str(millisats)
+
+            # get bech32-serialized lightning invoice
+            # ln_res =  requests.get(payquery)
+            ln_res = await get_url(self._session, path=payquery, headers=self._invoice_headers)
+            pr_dict = ln_res.json()
+            # check keys returned for status
+            if "status" in pr_dict:
+                reason = pr_dict["reason"]
+                return reason
+            elif "pr" in pr_dict:
+                bolt11 = pr_dict["pr"]
+                return bolt11
+        except Exception as e:
+            print("Exception as: ", str(e))
+            return e
+
+# get lnbits pay_id from lightning address if its a lnpayurl
