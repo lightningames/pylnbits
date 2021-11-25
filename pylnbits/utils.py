@@ -5,7 +5,7 @@ import json
 """
 
 # return as json response
-async def get_url(session, path, headers) -> str:
+async def get_url(session, path, headers):
     """
     aiohttp: for use with GET requests
     """
