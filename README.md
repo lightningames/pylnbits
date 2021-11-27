@@ -29,9 +29,13 @@ If you would like to contribute, please feel free to make a pull request.
 
 ## Library Installation
 
+current release is 0.0.3
+
 ```
-pip install pylnbits-lngames
+pip install pylnbits
 ````
+
+https://pypi.org/project/pylnbits/
 
 ## Other
 
