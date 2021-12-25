@@ -61,7 +61,7 @@ class LnurlPay:
 
     async def create_paylink(self, body: str):
         """
-        GET /lnurlp/api/v1/links
+        POST /lnurlp/api/v1/links
 
         Body (application/json)
         {"description": <string> "amount": <integer> "max": <integer>
@@ -80,7 +80,7 @@ class LnurlPay:
 
     async def update_paylink(self, pay_id: str, body: str):
         """
-        GET /lnurlp/api/v1/links/<pay_id>
+        PUT /lnurlp/api/v1/links/<pay_id>
 
         Body (application/json)
         {"description": <string> "amount": <integer>}
@@ -98,7 +98,7 @@ class LnurlPay:
 
     async def delete_paylink(self, pay_id: str):
         """
-        GET /lnurlp/api/v1/links/<pay_id>
+        DELETE /lnurlp/api/v1/links/<pay_id>
 
         Returns Returns 204 NO CONTENT
         """
