@@ -77,7 +77,7 @@ class UserWallet:
         """
         try:
             # ppath = "/api/v1/payments/"
-            upath = self.paypath + hash
+            upath = self.paypath + "/" + hash
             path = self._lnbits_url + upath
             res = await get_url(self._session, path=path, headers=self._invoice_headers)
             return res
@@ -142,7 +142,7 @@ class UserWallet:
             path = self._lnbits_url + self.paypath
             body = {"out": direction, "bolt11": bolt11}
             j = json.dumps(body)
-            print(f"body: {j}")
+            #  print(f"body: {j}")
             res = await post_url(self._session, path=path, headers=self._admin_headers, body=j)
             return res
         except Exception as e:
@@ -221,7 +221,7 @@ class UserWallet:
             logger.info(e)
             return e
 
-# from lnaddress
+    # from lnaddress
     def get_payurl(self, email: str):
         """
         Construct Lnurlp link from email address provided.
@@ -236,7 +236,7 @@ class UserWallet:
         except Exception as e:
             print("Exception, possibly malformed LN Address: " + str(e))
 
-# from lnaddress
+    # from lnaddress
     async def get_bolt11(self, email: str, amount: int):
         """
         fail state
