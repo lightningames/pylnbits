@@ -70,7 +70,7 @@ class LnurlWithdraw:
     # Create a withdraw link 
     async def create_withdrawlink(self, body: str):
         """
-        GET /withdraw/api/v1/links
+        POST /withdraw/api/v1/links
 
         Body (application/json)
         {"title": <string>, "min_withdrawable": <integer>, 
@@ -101,7 +101,7 @@ class LnurlWithdraw:
     # Update a withdraw link 
     async def update_withdrawlink(self, withdraw_id: str, body: str):
         """
-        GET /withdraw/api/v1/links/<pay_id>
+        PUT /withdraw/api/v1/links/<pay_id>
 
         Body (application/json)
         {"title": <string>, "min_withdrawable": <integer>, 
@@ -123,7 +123,7 @@ class LnurlWithdraw:
     # Delete a withdraw link 
     async def delete_withdrawlink(self, withdraw_id: str):
         """
-        GET /withdraw/api/v1/links/<withdraw_id>
+        DELETE /withdraw/api/v1/links/<withdraw_id>
 
         Returns Returns 204 NO CONTENT
         """

@@ -39,7 +39,6 @@ async def main():
         getlink = await lw.get_withdrawlink(withdraw_id)
         print("get withdrawl link: ", str(getlink), "\n")
 
-
         # create link
         body = {"title": "autocreatelink", 
                 "min_withdrawable": 100,
