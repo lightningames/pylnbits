@@ -60,7 +60,7 @@ class LnurlWithdraw:
         """
         try:
             path = self._lnbits_url + self._upath + "/" + withdraw_id
-            res = await get_url(self._session, path, self._invoice_headers)
+            res = await get_url_resp(self._session, path, self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)
