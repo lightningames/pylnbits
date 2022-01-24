@@ -30,8 +30,8 @@ If you would like to contribute, please feel free to make a pull request.
 ## Library Installation
 
 current release is 0.0.3
-only effective up to LNBITS commit 3d1d1451447f22bbc52b5b159701d937b6a39476
-
+only effective up to LNBITS commit 
+https://github.com/lnbits/lnbits-legend/commit/e46e881663eb4d70b691e09ac1c97eecd6b547b8
 
 ```
 pip install pylnbits
