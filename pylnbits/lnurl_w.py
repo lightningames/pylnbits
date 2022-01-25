@@ -60,6 +60,7 @@ class LnurlWithdraw:
         """
         try:
             path = self._lnbits_url + self._upath + "/" + withdraw_id
+            # print(f"GET WITHDRAWL LINK PATH: {path}")
             res = await get_url_resp(self._session, path, self._invoice_headers)
             return res
         except Exception as e:
@@ -129,6 +130,7 @@ class LnurlWithdraw:
         """
         try:
             path = self._lnbits_url + self._upath + "/" + withdraw_id
+            print(path)
             res = await delete_url(self._session, path=path, headers=self._admin_headers)
             return res
         except Exception as e:
