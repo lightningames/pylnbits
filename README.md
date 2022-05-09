@@ -1,5 +1,6 @@
 # pylnbits
 
+Pull Requests are Welcome!
 
 An asyncio/aiohttp python library of methods for accessing [lnbits](https://github.com/lnbits/lnbits/) API or your own install. For use when building front end or app layer projects with lnbits. 
 
