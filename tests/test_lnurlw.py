@@ -6,7 +6,7 @@ from aiohttp.client import ClientSession
 from pylnbits.config import Config
 from pylnbits.lnurl_w import LnurlWithdraw
 
-# TODO: make this a proper unit test with pytest
+# Example code for testing LNURLw
 
 async def main():
     c = Config(config_file="config.yml")

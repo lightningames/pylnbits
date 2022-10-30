@@ -4,7 +4,7 @@ from aiohttp.client import ClientSession
 from pylnbits.config import Config
 from pylnbits.lndhub import LndHub
 
-# TODO: make this a proper unit test with pytest
+# Example code
 
 async def main():
     c = Config(config_file="config.yml")

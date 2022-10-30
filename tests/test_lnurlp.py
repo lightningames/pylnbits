@@ -1,4 +1,4 @@
-# test lnurlp  pay link
+# test lnurlp pay link
 import asyncio
 
 from aiohttp.client import ClientSession
@@ -6,7 +6,7 @@ from aiohttp.client import ClientSession
 from pylnbits.config import Config
 from pylnbits.lnurl_p import LnurlPay
 
-# TODO: make this a proper unit test with pytest
+# Example code for testing LNURLp
 
 async def main():
     c = Config(config_file="config.yml")

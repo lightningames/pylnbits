@@ -5,8 +5,7 @@ from aiohttp.client import ClientSession
 from pylnbits.config import Config
 from pylnbits.user_manager import UserManager
 
-# TODO: make this a proper unit test with pytest
-
+# Example code
 
 async def main():
 

@@ -5,7 +5,10 @@ from aiohttp.client import ClientSession
 
 from pylnbits.utils import get_url, post_url
 
+# pylnbits/user_wallet.py
+
 """
+The user_wallet.py handles
 Rest API methods for LNbits User Wallet
 (lnbits page where users can enable extensions)
 

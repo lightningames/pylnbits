@@ -1,0 +1,15 @@
+site_name: Pylnbits Docs
+
+theme:
+  name: "material"
+
+plugins:
+  - mkdocstrings
+  - search
+
+nav:
+  - Pylnbits Docs: index.md
+  - How-To guides: how-to-guides.md
+  - Reference: reference.md
+  - Explanation: explanation.md
+  - MK Docs: notes.md

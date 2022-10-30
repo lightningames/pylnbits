@@ -1,6 +1,9 @@
 import os
 
 from yaml import safe_load
+"""
+Config is where you set the LNBits user API keys for the pylnbits library
+"""
 
 
 class Config:
@@ -9,6 +12,9 @@ class Config:
                         admin_key: str = None, 
                         lnbits_url: str = None):
 
+        """
+
+        """
         self._config_file = config_file
         self._in_key = in_key
         self._lnbits_url = lnbits_url
