@@ -4,7 +4,7 @@ These docs for the [**pylnbits**](https://github.com/lightningames/pylnbits) lib
 
 ## [How To Guides](/pylnbits/how-to-guides/)
 
-Visit the [How To Guide](/how-to-guides)
+Visit the [How To Guide](/pylnbits/how-to-guides/)
 on how to use the **pylnbits library** for how to install, configure and connect to pylnbits API using sample code. If you are not yet familiar with LNBits, please visit lnbits.com. 
 
 
