@@ -68,7 +68,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#example-code">Example Code</a>
         <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#sample-code-for-user-wallet">Sample code for user wallet</a>
+    <li class="toctree-l3"><a class="reference internal" href="#sample-code-for-user-wallet">Sample code for User Wallet</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#where-to-get-lnbits-api-details">Where to get LNBits API details</a>
     </li>
@@ -117,7 +117,7 @@
 <p>This is a brief guide on how to use the pylnbits library. First create an an account on your LNBits instance by visiting the main page and naming your wallet. Be sure to bookmark the link to be able to get access in the future. If you are not familiar with LNBits, please take the time to familiarize yourself with how user accounts work and how invoices are created and paid on LNBits first. </p>
 <p>Next, click on <code>enable extensions</code> in the side navigation bar on your LNBits account. Enable the extensions that you want to use. Extension use is <em>optional</em>, and is not required for generating invoices or receiving payments. The <strong>pylnbits</strong> library currently only supports the following extensions from <a href="https://lnbits.com">LNBits</a>: </p>
 <ul>
-<li>User Wallet </li>
+<li>User Wallet (not an extension, created initially)</li>
 <li>User Manager</li>
 <li>LNURLp</li>
 <li>LNURLw</li>
@@ -155,8 +155,8 @@ in_key: &quot;&lt;your Invoice Key here&gt;&quot;
 admin_key: &quot;&lt; Your Admin Key here&gt;&quot;
 </code></pre>
 <h2 id="example-code">Example Code</h2>
-<h3 id="sample-code-for-user-wallet">Sample code for user wallet</h3>
-<p>The following is sample code that uses config.yml in your current directory for calling methods from the LNURLp extension. </p>
+<h3 id="sample-code-for-user-wallet">Sample code for User Wallet</h3>
+<p>The following is sample code that uses config.yml in your current directory for calling methods from the user wallet. </p>
 <p>This Example code runs test for the following: </p>
 <ul>
 <li>INITIALIZE the pylnbits with your config file</li>
