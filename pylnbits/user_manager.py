@@ -29,6 +29,11 @@ logger = logging.getLogger(__name__)
 
 class UserManager:
     def __init__(self, config, session: ClientSession = None):
+        """__init__
+            
+            Initializes a UserManager extension via API
+
+        """
         self._config = config
         self._lnbits_url = config.lnbits_url
         self._invoice_headers = config.invoice_headers()
@@ -37,6 +42,12 @@ class UserManager:
 
     # returns JSON list of users
     async def get_users(self):
+        """
+            get users managed by the User Manager Extension
+
+            Returns: 
+                JSON list of users
+        """
         try:
             upath = "/usermanager/api/v1/users"
             path = self._lnbits_url + upath
@@ -48,6 +59,11 @@ class UserManager:
 
     # returns single JSON user based on user_id
     async def get_user(self, user_id):
+        """
+            gets a user based on user_id
+
+            Returns a single JSON based on used_id
+        """
         try:
             upath = "/usermanager/api/v1/users/" + user_id
             path = self._lnbits_url + upath
@@ -59,6 +75,11 @@ class UserManager:
 
     # returns JSON wallet data
     async def get_wallets(self, user_id):
+        """"
+            gets wallets based on user_id
+
+            Returns JSON of wallet data
+        """
         try:
             wpath = "/usermanager/api/v1/wallets/" + user_id
             path = self._lnbits_url + wpath
@@ -70,6 +91,11 @@ class UserManager:
 
     # returns JSON of wallet transactions
     async def get_tx(self, wallet_id):
+        """
+            Gets all transactions in a wallet 
+
+            Returns JSON of Wallet Transactions
+        """
         try:
             tpath = "/usermanager/api/v1/wallets" + wallet_id
             path = self._lnbits_url + tpath
@@ -79,12 +105,10 @@ class UserManager:
             logger.info(e)
             return e
 
-    # creates a user and initial wallet
-    # TODO add  email and password optional
-    # {"admin_id": <string>, "user_name": <string>, "wallet_name": <string>,
-    # "email": <Optional string> ,"password": <Optional string>}
     async def post_user_initial(self, admin_id, user_name, wallet_name):
-
+        """
+            creates a user and an initial wallet
+        """
         try:
             tpath = "/usermanager/api/v1/users"
             path = self._lnbits_url + tpath
@@ -101,6 +125,11 @@ class UserManager:
     # {"id": <string>, "admin": <string>, "name": <string>,
     # "user": <string>, "adminkey": <string>, "inkey": <string>}
     async def post_wallet(self, user_id, wallet_name, admin_id):
+        """
+            Post_wallet returns api keys related to wallet
+
+            Returns {"id": <string>, "admin": <string>, "name": <string>, "user": <string>, "adminkey": <string>, "inkey": <string>}
+        """
         try:
             tpath = "/usermanager/api/v1/wallets"
             path = self._lnbits_url + tpath
@@ -113,6 +142,9 @@ class UserManager:
             return e
 
     async def delete_user(self, user_id):
+        """
+            Deletes a user based on user_id
+        """
         try:
             tpath = "/usermanager/api/v1/users/" + user_id
             path = self._lnbits_url + tpath
@@ -123,6 +155,9 @@ class UserManager:
             return e
 
     async def delete_wallet(self, wallet_id):
+        """
+            Delete a wallet based on wallet_id
+        """
         try:
             tpath = "/usermanager/api/v1/wallets/" + wallet_id
             path = self._lnbits_url + tpath
@@ -136,6 +171,9 @@ class UserManager:
     # https://yourdomain.com/extensions?usr=89.....&enable=lnurlp
     # unclear why curl doesn't work ?
     async def post_activate_ext(self, user_id: str, extension: str, active: int):
+        """
+            activates an extension for a user created by User Manager Extension
+        """
         try:
             tpath = "/usermanager/api/v1/extensions"
             path = self._lnbits_url + tpath

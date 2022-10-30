@@ -23,8 +23,6 @@ Rest API methods for LNbits User Wallet
 
 - Drain Funds LNURL-withdraw QR code (?) 
 - Export to Phone with QR Code (?) 
-
-TODO - merge in updated code from other repo 
 """
 ###################################
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -35,6 +33,8 @@ logger = logging.getLogger(__name__)
 
 class UserWallet:
     def __init__(self, config, session: ClientSession = None):
+        """__init__
+        """
         self._session = session
         self._config = config
         self._invoice_headers = config.invoice_headers()
@@ -45,6 +45,8 @@ class UserWallet:
 
     @property
     def config(self):
+        """config property
+        """
         return self._config
 
     async def get_wallet_details(self):
@@ -56,6 +58,7 @@ class UserWallet:
 
         Returns 200 OK (application/json)
         {"id": <string>, "name": <string>, "balance": <int>}
+
         """
         try:
             # upath = "/api/v1/wallet"
