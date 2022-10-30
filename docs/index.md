@@ -2,13 +2,13 @@
 
 These docs for the [**pylnbits**](https://github.com/lightningames/pylnbits) library are auto generated. For full documentation on how they were generated, visit [mkdocs.org](https://www.mkdocs.org).
 
-## [How To Guides](/how-to-guides/)
+## [How To Guides](/pylnbits/how-to-guides/)
 
 Visit the [How To Guide](/how-to-guides)
 on how to use the **pylnbits library** for how to install, configure and connect to pylnbits API using sample code. If you are not yet familiar with LNBits, please visit lnbits.com. 
 
 
-## [Reference](/reference/)
+## [Reference](/pylnbits/reference/)
 
 This part of the project documentation focuses on an information-oriented approach. It is a [reference](/reference/) for the technical implementation of the pylnbits project code.
 
@@ -38,4 +38,4 @@ Source: [https://github.com/lightningames/pylnbits](https://github.com/lightning
         test_usermanager.py
         test_userwallet.py
 
-## [MK Docs notes](/notes/)
+## [MK Docs notes](/pylnbits/notes/)
