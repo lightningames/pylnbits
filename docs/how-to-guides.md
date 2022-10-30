@@ -4,7 +4,7 @@ This is a brief guide on how to use the pylnbits library. First create an an acc
 
 Next, click on `enable extensions` in the side navigation bar on your LNBits account. Enable the extensions that you want to use. Extension use is *optional*, and is not required for generating invoices or receiving payments. The **pylnbits** library currently only supports the following extensions from [LNBits](https://lnbits.com): 
 
-- User Wallet 
+- User Wallet (not an extension, created initially)
 - User Manager
 - LNURLp
 - LNURLw
@@ -59,9 +59,9 @@ admin_key: "< Your Admin Key here>"
 
 ## Example Code
 
-### Sample code for user wallet 
+### Sample code for User Wallet 
 
-The following is sample code that uses config.yml in your current directory for calling methods from the LNURLp extension. 
+The following is sample code that uses config.yml in your current directory for calling methods from the user wallet. 
 
 This Example code runs test for the following: 
 

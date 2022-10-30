@@ -1,9 +1,12 @@
 # Welcome to Pylnbits Docs
 
-The purpose of the [**pylnbits**](https://github.com/lightningames/pylnbits) library is to enable accelerated access to the LNBits API, by packaging commonly used methods, and so that app developers can write less code in python. 
+[**Pylnbits**](https://github.com/lightningames/pylnbits) is an asyncio/aiohttp python library of methods for accessing [lnbits](https://github.com/lnbits/lnbits/) API or your own LNBits install. For building front end or app layer projects with lnbits. 
+
+Write less code in python, make Lightning apps faster.
 
 Visit the [How To Guide](/pylnbits/how-to-guides/)
-to understand how to install, configure and connect to pylnbits API using sample code. If you are not yet familiar with LNBits, please visit [lnbits.com](https://lnbits.com). 
+to understand how to install, configure and connect to pylnbits API using sample code. 
+If you are not yet familiar with how LNBits works, please visit [lnbits.com](https://lnbits.com). 
 
 
 ## Project layout
