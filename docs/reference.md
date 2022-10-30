@@ -19,9 +19,9 @@ reference for the technical implementation of the
 
 ::: pylnbits.lndhub
 
-## Project layout
+--
 
-Source: [https://github.com/lightningames/pylnbits](https://github.com/lightningames/pylnbits)
+## Project layout
 
     mkdocs.yml    # The configuration file.
     docs/

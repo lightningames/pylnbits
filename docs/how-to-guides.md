@@ -49,9 +49,10 @@ First create a `config.yml` file, copy the Keys from LNBits with your values. Th
 
 ### `config.yml`
 ```
-lnbits_url: "https://<your lnbits domain here>"
+lnbits_url: "https://<your lnbits domain here, e.g. https://legend.lnbits.com>"
 
-# api_key from LNbits User Manager Extension
+# get api_keys from LNbits Wallet
+
 in_key: "<your Invoice Key here>" 
 admin_key: "< Your Admin Key here>"
 ```
@@ -118,12 +119,13 @@ loop.run_until_complete(main())
 
 ```
 
-For more details on what values need to be passed in for the methods, check the LNBits API docs, which should be located on the LNBits site below your LNBits Admin and Invoice Key.
+
+### Where to get LNBits API details
+
+For more details on what values need to be passed to the above pylnbits example, please check the LNBits API docs, which should be located on the LNBits website in the section below your the Admin and Invoice Key. Expand the tabs as shown in the image below. 
 
 
-### Expand the tabs for more LNBits API info
-![API Info on LNBits](images/API_info.png)
-
+![API detail](images/api_info.png)
 
 
 ### Sample code for LNURLp
