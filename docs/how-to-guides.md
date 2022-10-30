@@ -187,7 +187,6 @@ async def main():
         print(f'delete pay link id: {pay_id}, result: {delete_result}\n\n')
 
 
-
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
 
@@ -195,4 +194,4 @@ loop.run_until_complete(main())
 
 ## More Examples
 
-More example code can be found in the **tests** directory as shown in the [Project Layout](/#project-layout) section. 
+More example code can be found in the **tests** directory as shown in the [Project Layout](/pylnbits/#project-layout) section. 

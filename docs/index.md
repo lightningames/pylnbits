@@ -14,7 +14,7 @@ This part of the project documentation focuses on an information-oriented approa
 
 ## Project layout
 
-Source: [https://github.com/lightningames/pylnbits](https://github.com/lightningames/pylnbits)
+Get the Source: [https://github.com/lightningames/pylnbits](https://github.com/lightningames/pylnbits)
 
     mkdocs.yml    # The configuration file.
     docs/
@@ -38,4 +38,3 @@ Source: [https://github.com/lightningames/pylnbits](https://github.com/lightning
         test_usermanager.py
         test_userwallet.py
 
-## [MK Docs notes](/pylnbits/notes/)

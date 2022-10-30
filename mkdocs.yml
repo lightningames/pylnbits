@@ -1,7 +1,16 @@
 site_name: Pylnbits Docs
 
 theme:
-  name: "material"
+  name: "readthedocs"
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - python
+
+
+repo_url: https://github.com/lightningames/pylnbits
+
+site_author: bitkarrot
 
 plugins:
   - mkdocstrings
