@@ -35,7 +35,7 @@ If you would like to contribute, please feel free to make a pull request.
 ## Library Installation
 
 current release is 0.0.3
-only effective up to LNBITS commit 
+Tested only up to LNBITS commit listed below but may work for more updated commits.
 https://github.com/lnbits/lnbits-legend/commit/e46e881663eb4d70b691e09ac1c97eecd6b547b8
 
 ```
