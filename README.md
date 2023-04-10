@@ -8,6 +8,9 @@ An asyncio/aiohttp python library of methods for accessing [lnbits](https://gith
 
 https://lightningames.github.io/pylnbits/
 
+See also [Powered-by-LNBits](https://github.com/lnbits/lnbits/wiki/Powered-by-LNbits) for more resources. 
+This project, [pylnbits](https://github.com/lightningames/pylnbits), is also listed on the Powered by LNbits wiki. 
+
 ## Getting Started
 
 version at least python3.8
