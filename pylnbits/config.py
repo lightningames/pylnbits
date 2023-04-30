@@ -22,14 +22,19 @@ class Config:
 
         try:
             if config_file:
+                if not os.path.exists(config_file):
+                    raise FileNotFoundError(f"Config file: {config_file} not found!")
+                
                 with open(config_file, "rb") as f:
                     cfile = safe_load(f)
                     print(cfile)
                 f.close()
-            # add file error checking
-            self._in_key = cfile["in_key"]
-            self._lnbits_url = cfile["lnbits_url"]
-            self._admin_key = cfile["admin_key"]
+
+                # add file error checking
+                self._in_key = cfile["in_key"]
+                self._lnbits_url = cfile["lnbits_url"]
+                self._admin_key = cfile["admin_key"]
+        
         except Exception as e:
             print(e)
             return e
@@ -63,11 +68,15 @@ class Config:
 
 
 if __name__ == "__main__":
-    c = Config(config_file="/Users/bitcarrot/laisee/pylnbits/config.yml")
+    c = Config(
+        in_key="test",
+        admin_key="test",
+        lnbits_url="https://legend.lnbits.com"
+    )
 
-    print(c.in_key)
-    print(c.admin_key)
-    print(c.lnbits_url)
-    print(c.headers())
-    print(c.invoice_headers())
-    print(c.admin_headers())
+    print(f"{c.in_key=}")
+    print(f"{c.admin_key=}")
+    print(f"{c.lnbits_url=}")
+    print(f"{c.headers()=}")
+    print(f"{c.invoice_headers()=}")
+    print(f"{c.admin_headers()=}")
