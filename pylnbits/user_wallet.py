@@ -169,8 +169,9 @@ class UserWallet:
         try:
             decode_url = self._lnbits_url + self.paypath + "/decode"
             payload = {"data": bolt11}
-            # res =  requests.post(decode_url, json=payload, headers=self._invoice_headers)
-            res = await post_url(self._session, path=decode_url, body=payload, headers=self._invoice_headers)
+            j = json.dumps(payload)
+            #res =  requests.post(decode_url, json=payload, headers=self._invoice_headers)
+            res = await post_url(self._session, path=decode_url, body=j, headers=self._invoice_headers)
             return res
         except Exception as e:
             print("Exception in get_decoded() ", e)
@@ -182,7 +183,7 @@ class UserWallet:
         Only returns the payment hash not entire decoded invoice
         """
         res = await self.get_decoded(bolt11)
-        decoded = res.json()
+        decoded = res
         # print(decoded)
         if "payment_hash" in decoded:
             payhash = decoded["payment_hash"]
@@ -257,7 +258,7 @@ class UserWallet:
             purl = self.get_payurl(email)
             res = await get_url(self._session, path=purl, headers=self._invoice_headers)
             # res =  requests.get(purl)
-            json_content = res.json()
+            json_content = res
             lnurlpay = json_content["callback"]
 
             millisats = amount * 1000
@@ -266,7 +267,7 @@ class UserWallet:
             # get bech32-serialized lightning invoice
             # ln_res =  requests.get(payquery)
             ln_res = await get_url(self._session, path=payquery, headers=self._invoice_headers)
-            pr_dict = ln_res.json()
+            pr_dict = ln_res
             # check keys returned for status
             if "status" in pr_dict:
                 reason = pr_dict["reason"]
