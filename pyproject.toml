@@ -2,7 +2,7 @@
 name = "pylnbits"
 version = "0.0.3"
 description = "Python library for LNBits."
-authors = ["bitkarrot <bitkarrot@bitcoin.org.hk>"]
+authors = ["bitkarrot <info@bitkarrot.co>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
