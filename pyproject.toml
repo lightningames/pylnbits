@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pylnbits"
-version = "0.0.3"
+version = "0.0.6"
 description = "Python library for LNBits."
 authors = ["bitkarrot <info@bitkarrot.co>"]
 license = "MIT"
