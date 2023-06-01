@@ -8,7 +8,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.7.1"
 pre-commit = "2.13.0"
-aiohttp = "3.7.4.post0"
+aiohttp = "3.8.4"
 PyYAML = "5.4.1"
 
 [tool.poetry.dev-dependencies]
