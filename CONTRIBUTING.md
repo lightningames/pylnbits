@@ -136,23 +136,27 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/pylnbi
 ### Your First Code Contribution
 <!-- TODO
 include Setup of env, IDE and typical getting started instructions?
-
 -->
+TODO
 
 ### Improving The Documentation
 <!-- TODO
 Updating, improving and correcting the documentation
-
 -->
+TODO
+
 
 ## Styleguides
 ### Commit Messages
 <!-- TODO
-
 -->
+TODO
+
 
 ## Join The Project Team
 <!-- TODO -->
+TODO
+
 
 <!-- omit in toc -->
 ## Attribution
