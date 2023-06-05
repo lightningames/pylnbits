@@ -1,7 +1,7 @@
 aiohttp==3.7.4.post0
 PyYAML==6.0
 pre-commit==2.13.0
-mkdocs==1.4.1
+mkdocs==1.4.3
 mkdocs-autorefs==0.4.1
 mkdocs-material==9.1.15
 mkdocs-material-extensions==1.1.1
