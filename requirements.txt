@@ -1,4 +1,4 @@
-aiohttp==3.7.4.post0
+aiohttp==3.8.4
 PyYAML==6.0
 pre-commit==2.13.0
 mkdocs==1.4.1
