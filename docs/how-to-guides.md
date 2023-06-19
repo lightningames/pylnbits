@@ -1,8 +1,8 @@
 # How To Guides
 
-This is a brief guide on how to use the pylnbits library. First create an an account on your LNBits instance by visiting the main page and naming your wallet. Be sure to bookmark the link to be able to get access in the future. If you are not familiar with LNBits, please take the time to familiarize yourself with how user accounts work and how invoices are created and paid on LNBits first. 
+This is a brief guide on how to use the pylnbits library. First create an an account on your LNBits instance by visiting the main page and naming your wallet. Be sure to bookmark the link to be able to get access in the future. If you are not familiar with LNBits, please take the time to familiarize yourself with how user accounts work and how invoices are created and paid on LNBits first.
 
-Next, click on `enable extensions` in the side navigation bar on your LNBits account. Enable the extensions that you want to use. Extension use is *optional*, and is not required for generating invoices or receiving payments. The **pylnbits** library currently only supports the following extensions from [LNBits](https://lnbits.com): 
+Next, click on `enable extensions` in the side navigation bar on your LNBits account. Enable the extensions that you want to use. Extension use is *optional*, and is not required for generating invoices or receiving payments. The **pylnbits** library currently only supports the following extensions from [LNBits](https://lnbits.com):
 
 - User Wallet (not an extension, created initially)
 - User Manager
@@ -25,11 +25,18 @@ pip install -e .
 ```
 
 ### Release Note
-current pylnbits release is 0.0.3
-It is only effective up to LNBITS commit 
+Current pylnbits release is **0.0.6**
+Full Changelog can be found [here](https://github.com/lightningames/pylnbits/compare/v0.0.5...v0.0.6)
+
+It is only effective up to LNBITS commit
 [https://github.com/lnbits/lnbits-legend/commit/e46e881663eb4d70b691e09ac1c97eecd6b547b8
 ](https://github.com/lnbits/lnbits-legend/commit/e46e881663eb4d70b691e09ac1c97eecd6b547b8
 )
+
+###### Resolved Bugs
+- UnboundLocalError when config_file is None
+- /api/v1/payments/decode expects the body as json
+- get_url returns the dict after extracting the json attribute therefore this fails in the UserWallet class.
 
 ### PyPi release
 [https://pypi.org/project/pylnbits/](https://pypi.org/project/pylnbits/)
@@ -40,7 +47,7 @@ pip install pylnbits
 
 ## Set up your Config
 
-In your LNBits account, click on the API info tab. You should see **Wallet ID, Admin Key and Invoice/read key**. 
+In your LNBits account, click on the API info tab. You should see **Wallet ID, Admin Key and Invoice/read key**.
 
 ![LNBits user dashboard](images/lnbits.png)
 
@@ -53,17 +60,17 @@ lnbits_url: "https://<your lnbits domain here, e.g. https://legend.lnbits.com>"
 
 # get api_keys from LNbits Wallet
 
-in_key: "<your Invoice Key here>" 
+in_key: "<your Invoice Key here>"
 admin_key: "< Your Admin Key here>"
 ```
 
 ## Example Code
 
-### Sample code for User Wallet 
+### Sample code for User Wallet
 
-The following is sample code that uses config.yml in your current directory for calling methods from the user wallet. 
+The following is sample code that uses config.yml in your current directory for calling methods from the user wallet.
 
-This Example code runs test for the following: 
+This Example code runs test for the following:
 
 - INITIALIZE the pylnbits with your config file
 - GET wallet details
@@ -101,7 +108,7 @@ async def main():
         payment_hash = "edefef3766537446c70e51af9b414fb3b319baf515f1ff9852c0289eae3665a1"
         res = await uw.check_invoice(payment_hash)
         print(f"check invoice response: {res}")
- 
+
         # CREATE an invoice
         res = await uw.create_invoice(False, 150, "testcreatetwo", "http://google.com")
         print(f'\nCreate invoice RESPONSE: {res}\n\n')
@@ -122,7 +129,7 @@ loop.run_until_complete(main())
 
 ### Where to get LNBits API details
 
-For more details on what values need to be passed to the above pylnbits example, please check the LNBits API docs, which should be located on the LNBits website in the section below your the Admin and Invoice Key. Expand the tabs as shown in the image below. 
+For more details on what values need to be passed to the above pylnbits example, please check the LNBits API docs, which should be located on the LNBits website in the section below your the Admin and Invoice Key. Expand the tabs as shown in the image below.
 
 
 ![API detail](images/api_info.png)
@@ -153,11 +160,11 @@ async def main():
     async with ClientSession() as session:
         lw = LnurlPay(c, session)
 
-        # list links        
+        # list links
         links = await lw.list_paylinks()
         print("list all links: " , str(links), "\n\n")
 
-        # get pay link 
+        # get pay link
         pay_id = links[0]['id']
         print(f'pay_id for get_link: {pay_id}')
         getlink = await lw.get_paylink(pay_id=str(pay_id))
@@ -177,7 +184,7 @@ async def main():
         # update newly created link above
         # all body fields are required
         body = {"description": "update auto paylink",
-                "amount": 150, 
+                "amount": 150,
                 "max": 10000,
                 "min": 100,
                 "comment_chars": 100}
@@ -196,4 +203,4 @@ loop.run_until_complete(main())
 
 ## More Examples
 
-More example code can be found in the **tests** directory as shown in the [Project Layout](/pylnbits/#project-layout) section. 
+More example code can be found in the **tests** directory as shown in the [Project Layout](/pylnbits/#project-layout) section.
