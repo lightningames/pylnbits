@@ -11,6 +11,20 @@ https://lightningames.github.io/pylnbits/
 See also [Powered-by-LNBits](https://github.com/lnbits/lnbits/wiki/Powered-by-LNbits) for more resources. 
 This project, [pylnbits](https://github.com/lightningames/pylnbits), is also listed on the Powered by LNbits wiki. 
 
+## Updating the docs
+
+See mkdocs for guidance on how to update docs and also https://github.com/lightningames/pylnbits/blob/main/mkdocs.yml
+
+
+deploy to github pages: 
+
+https://www.mkdocs.org/user-guide/deploying-your-docs/#github-pages
+
+
+```
+mkdocs gh-deploy
+```
+
 ## Getting Started
 
 version at least python3.8
