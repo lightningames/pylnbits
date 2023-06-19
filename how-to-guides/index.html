@@ -37,7 +37,7 @@
           <a href=".." class="icon icon-home"> Pylnbits Docs
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -55,6 +55,10 @@
     <li class="toctree-l3"><a class="reference internal" href="#install-from-source">Install from source</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#release-note">Release Note</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#resolved-bugs">Resolved Bugs</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#pypi-release">PyPi release</a>
     </li>
@@ -102,7 +106,7 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
       <li>How-To guides</li>
     <li class="wy-breadcrumbs-aside">
           <a href="https://github.com/lightningames/pylnbits/blob/main/docs/how-to-guides.md" class="icon icon-github"> Edit on GitHub</a>
@@ -114,8 +118,8 @@
             <div class="section" itemprop="articleBody">
               
                 <h1 id="how-to-guides">How To Guides</h1>
-<p>This is a brief guide on how to use the pylnbits library. First create an an account on your LNBits instance by visiting the main page and naming your wallet. Be sure to bookmark the link to be able to get access in the future. If you are not familiar with LNBits, please take the time to familiarize yourself with how user accounts work and how invoices are created and paid on LNBits first. </p>
-<p>Next, click on <code>enable extensions</code> in the side navigation bar on your LNBits account. Enable the extensions that you want to use. Extension use is <em>optional</em>, and is not required for generating invoices or receiving payments. The <strong>pylnbits</strong> library currently only supports the following extensions from <a href="https://lnbits.com">LNBits</a>: </p>
+<p>This is a brief guide on how to use the pylnbits library. First create an an account on your LNBits instance by visiting the main page and naming your wallet. Be sure to bookmark the link to be able to get access in the future. If you are not familiar with LNBits, please take the time to familiarize yourself with how user accounts work and how invoices are created and paid on LNBits first.</p>
+<p>Next, click on <code>enable extensions</code> in the side navigation bar on your LNBits account. Enable the extensions that you want to use. Extension use is <em>optional</em>, and is not required for generating invoices or receiving payments. The <strong>pylnbits</strong> library currently only supports the following extensions from <a href="https://lnbits.com">LNBits</a>:</p>
 <ul>
 <li>User Wallet (not an extension, created initially)</li>
 <li>User Manager</li>
@@ -134,16 +138,23 @@ pip install -r requirements.txt
 pip install -e .
 </code></pre>
 <h3 id="release-note">Release Note</h3>
-<p>current pylnbits release is 0.0.3
-It is only effective up to LNBITS commit 
+<p>Current pylnbits release is <strong>0.0.6</strong>
+Full Changelog can be found <a href="https://github.com/lightningames/pylnbits/compare/v0.0.5...v0.0.6">here</a></p>
+<p>It is only effective up to LNBITS commit
 <a href="https://github.com/lnbits/lnbits-legend/commit/e46e881663eb4d70b691e09ac1c97eecd6b547b8">https://github.com/lnbits/lnbits-legend/commit/e46e881663eb4d70b691e09ac1c97eecd6b547b8
 </a></p>
+<h6 id="resolved-bugs">Resolved Bugs</h6>
+<ul>
+<li>UnboundLocalError when config_file is None</li>
+<li>/api/v1/payments/decode expects the body as json</li>
+<li>get_url returns the dict after extracting the json attribute therefore this fails in the UserWallet class.</li>
+</ul>
 <h3 id="pypi-release">PyPi release</h3>
 <p><a href="https://pypi.org/project/pylnbits/">https://pypi.org/project/pylnbits/</a></p>
 <pre><code>pip install pylnbits
 </code></pre>
 <h2 id="set-up-your-config">Set up your Config</h2>
-<p>In your LNBits account, click on the API info tab. You should see <strong>Wallet ID, Admin Key and Invoice/read key</strong>. </p>
+<p>In your LNBits account, click on the API info tab. You should see <strong>Wallet ID, Admin Key and Invoice/read key</strong>.</p>
 <p><img alt="LNBits user dashboard" src="../images/lnbits.png" /></p>
 <p>First create a <code>config.yml</code> file, copy the Keys from LNBits with your values. There is a sample <code>config_sample.yml</code> file in the pylnbits source directory.</p>
 <h3 id="configyml"><code>config.yml</code></h3>
@@ -151,13 +162,13 @@ It is only effective up to LNBITS commit
 
 # get api_keys from LNbits Wallet
 
-in_key: &quot;&lt;your Invoice Key here&gt;&quot; 
+in_key: &quot;&lt;your Invoice Key here&gt;&quot;
 admin_key: &quot;&lt; Your Admin Key here&gt;&quot;
 </code></pre>
 <h2 id="example-code">Example Code</h2>
 <h3 id="sample-code-for-user-wallet">Sample code for User Wallet</h3>
-<p>The following is sample code that uses config.yml in your current directory for calling methods from the user wallet. </p>
-<p>This Example code runs test for the following: </p>
+<p>The following is sample code that uses config.yml in your current directory for calling methods from the user wallet.</p>
+<p>This Example code runs test for the following:</p>
 <ul>
 <li>INITIALIZE the pylnbits with your config file</li>
 <li>GET wallet details</li>
@@ -211,7 +222,7 @@ loop.run_until_complete(main())
 
 </code></pre>
 <h3 id="where-to-get-lnbits-api-details">Where to get LNBits API details</h3>
-<p>For more details on what values need to be passed to the above pylnbits example, please check the LNBits API docs, which should be located on the LNBits website in the section below your the Admin and Invoice Key. Expand the tabs as shown in the image below. </p>
+<p>For more details on what values need to be passed to the above pylnbits example, please check the LNBits API docs, which should be located on the LNBits website in the section below your the Admin and Invoice Key. Expand the tabs as shown in the image below.</p>
 <p><img alt="API detail" src="images/api_info.png" /></p>
 <h3 id="sample-code-for-lnurlp">Sample code for LNURLp</h3>
 <p>The following is sample code that uses config.yml in your current directory for calling methods from the LNURLp extension</p>
@@ -235,11 +246,11 @@ async def main():
     async with ClientSession() as session:
         lw = LnurlPay(c, session)
 
-        # list links        
+        # list links
         links = await lw.list_paylinks()
         print(&quot;list all links: &quot; , str(links), &quot;\n\n&quot;)
 
-        # get pay link 
+        # get pay link
         pay_id = links[0]['id']
         print(f'pay_id for get_link: {pay_id}')
         getlink = await lw.get_paylink(pay_id=str(pay_id))
@@ -259,7 +270,7 @@ async def main():
         # update newly created link above
         # all body fields are required
         body = {&quot;description&quot;: &quot;update auto paylink&quot;,
-                &quot;amount&quot;: 150, 
+                &quot;amount&quot;: 150,
                 &quot;max&quot;: 10000,
                 &quot;min&quot;: 100,
                 &quot;comment_chars&quot;: 100}
@@ -276,7 +287,7 @@ loop.run_until_complete(main())
 
 </code></pre>
 <h2 id="more-examples">More Examples</h2>
-<p>More example code can be found in the <strong>tests</strong> directory as shown in the <a href="/pylnbits/#project-layout">Project Layout</a> section. </p>
+<p>More example code can be found in the <strong>tests</strong> directory as shown in the <a href="/pylnbits/#project-layout">Project Layout</a> section.</p>
               
             </div>
           </div><footer>
