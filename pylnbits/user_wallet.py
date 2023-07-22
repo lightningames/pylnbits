@@ -2,6 +2,7 @@ import json
 import logging
 
 from aiohttp.client import ClientSession
+from lnurl import Lnurl
 
 from pylnbits.utils import get_url, post_url
 
@@ -242,6 +243,41 @@ class UserWallet:
         except Exception as e:
             print("Exception, possibly malformed LN Address: " + str(e))
 
+    # from LNURLPay link
+    async def get_bolt11_from_lnurlp(self, lnurlp_string: str, amount: int):
+        """
+        fail state
+        {'reason': 'Amount 100 is smaller than minimum 100000.', 'status': 'ERROR'}
+
+        success state
+        {'pr': 'lnbc1......azgfe0',
+        'routes': [], 'successAction': {'description': 'Thanks love for the lightning!',
+        'tag': 'url', 'url': 'https:/.......'}}
+        """
+        try:
+            lnurl = Lnurl(lnurlp_string)
+            purl = lnurl.url
+            json_content = await get_url(self._session, path=purl, headers=self._invoice_headers)
+            lnurlpay = json_content["callback"]
+
+            millisats = amount * 1000
+            payquery = lnurlpay + "?amount=" + str(millisats)
+
+            # get bech32-serialized lightning invoice
+            # pr_dict =  requests.get(payquery)
+            pr_dict = await get_url(self._session, path=payquery, headers=self._invoice_headers)
+            # check keys returned for status
+            if "status" in pr_dict:
+                reason = pr_dict["reason"]
+                return reason
+            elif "pr" in pr_dict:
+                bolt11 = pr_dict["pr"]
+                return bolt11
+        except Exception as e:
+            print("Exception as: ", str(e))
+            return e
+
+
     # from lnaddress
     async def get_bolt11(self, email: str, amount: int):
         """
@@ -258,7 +294,6 @@ class UserWallet:
             json_content = await get_url(self._session, path=purl, headers=self._invoice_headers)
             # res =  requests.get(purl)
             lnurlpay = json_content["callback"]
-
             millisats = amount * 1000
             payquery = lnurlpay + "?amount=" + str(millisats)
 
