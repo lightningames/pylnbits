@@ -243,11 +243,31 @@ class UserWallet:
         except Exception as e:
             print("Exception, possibly malformed LN Address: " + str(e))
 
+    # generates bolt11 invoice from payurl and amount to pay
+    async def get_bolt11_from_payurl(self, purl: str, amount: int):
+        json_content = await get_url(self._session, path=purl, headers=self._invoice_headers)
+        lnurlpay = json_content["callback"]
+
+        millisats = amount * 1000
+        payquery = lnurlpay + "?amount=" + str(millisats)
+
+        # get bech32-serialized lightning invoice
+        pr_dict = await get_url(self._session, path=payquery, headers=self._invoice_headers)
+        # check keys returned for status
+        if "status" in pr_dict:
+            reason = pr_dict["reason"]
+            return reason
+        elif "pr" in pr_dict:
+            bolt11 = pr_dict["pr"]
+            return bolt11
+
+
+
     # from LNURLPay link
     async def get_bolt11_from_lnurlp(self, lnurlp_string: str, amount: int):
         """
         fail state
-        {'reason': 'Amount 100 is smaller than minimum 100000.', 'status': 'ERROR'}
+        {'reason': 'Amount not between min_sendable and max_sendable', 'status': 'ERROR'}
 
         success state
         {'pr': 'lnbc1......azgfe0',
@@ -257,22 +277,8 @@ class UserWallet:
         try:
             lnurl = Lnurl(lnurlp_string)
             purl = lnurl.url
-            json_content = await get_url(self._session, path=purl, headers=self._invoice_headers)
-            lnurlpay = json_content["callback"]
+            return await self.get_bolt11_from_payurl(purl, amount)
 
-            millisats = amount * 1000
-            payquery = lnurlpay + "?amount=" + str(millisats)
-
-            # get bech32-serialized lightning invoice
-            # pr_dict =  requests.get(payquery)
-            pr_dict = await get_url(self._session, path=payquery, headers=self._invoice_headers)
-            # check keys returned for status
-            if "status" in pr_dict:
-                reason = pr_dict["reason"]
-                return reason
-            elif "pr" in pr_dict:
-                bolt11 = pr_dict["pr"]
-                return bolt11
         except Exception as e:
             print("Exception as: ", str(e))
             return e
@@ -291,24 +297,8 @@ class UserWallet:
         """
         try:
             purl = self.get_payurl(email)
-            json_content = await get_url(self._session, path=purl, headers=self._invoice_headers)
-            # res =  requests.get(purl)
-            lnurlpay = json_content["callback"]
-            millisats = amount * 1000
-            payquery = lnurlpay + "?amount=" + str(millisats)
+            return await self.get_bolt11_from_payurl(purl, amount)
 
-            # get bech32-serialized lightning invoice
-            # pr_dict =  requests.get(payquery)
-            pr_dict = await get_url(self._session, path=payquery, headers=self._invoice_headers)
-            # check keys returned for status
-            if "status" in pr_dict:
-                reason = pr_dict["reason"]
-                return reason
-            elif "pr" in pr_dict:
-                bolt11 = pr_dict["pr"]
-                return bolt11
         except Exception as e:
             print("Exception as: ", str(e))
             return e
-
-# get lnbits pay_id from lightning address if its a lnpayurl
