@@ -1,5 +1,5 @@
 aiohttp==3.8.5
-PyYAML==6.0
+PyYAML==6.0.1
 pre-commit==2.21.0
 mkdocs==1.4.3
 mkdocs-autorefs==0.4.1
