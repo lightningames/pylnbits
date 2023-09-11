@@ -1,10 +1,10 @@
-aiohttp==3.8.4
-PyYAML==6.0
+aiohttp==3.8.5
+PyYAML==6.0.1
 pre-commit==2.21.0
-mkdocs==1.4.3
-mkdocs-autorefs==0.4.1
-mkdocs-material==9.1.15
+mkdocs==1.5.2
+mkdocs-autorefs==0.5.0
+mkdocs-material==9.2.8
 mkdocs-material-extensions==1.1.1
-mkdocstrings==0.22.0
-mkdocstrings-python==1.1.2
 lnurl==0.4.0
+mkdocstrings==0.23.0
+mkdocstrings-python==1.6.2
