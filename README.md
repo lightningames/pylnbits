@@ -27,6 +27,17 @@ mkdocs gh-deploy
 
 ## Getting Started
 
+### With Poetry
+
+poetry version at least 1.4.2
+
+```
+git clone https://github.com/lightningames/pylnbits
+poetry install
+```
+
+### With Virtual Env
+
 version at least python3.8
 
 ```
@@ -38,7 +49,17 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-This is experimental software. The only modules & Extensions covered presently are: 
+Copy config_sample.yml to config.yml and update the variables with your lnbits install:
+
+```
+lnbits_url: "https://lnbits.com"
+in_key: "fill in with your Invoice Key here"
+admin_key: "fill with your admin key here "
+```
+
+Run tests in tests directory to see sample usage.
+
+NOTE: This is experimental software. The only modules & Extensions covered presently are: 
 
 - User Wallet 
 - User Manager
