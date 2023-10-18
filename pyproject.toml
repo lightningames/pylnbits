@@ -17,7 +17,7 @@ mkdocstrings = "0.23.0"
 
 
 [tool.poetry.dev-dependencies]
-pre_commit = "^2.1.0"
+pre-commit = "3.4.0"
 black = "^23.3"
 pytest = "^7.2.1"
 cashu = "0.9.0"
