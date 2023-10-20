@@ -10,7 +10,7 @@ class InvoiceDTO:
         self.email = ""
         self.phone = ""
         self.address = ""
-        self.items = ""
+        self.items = []
    
 
     def to_dict(self):

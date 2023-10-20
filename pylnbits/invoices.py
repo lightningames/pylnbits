@@ -4,7 +4,7 @@ import logging
 from aiohttp.client import ClientSession
 from lnurl import Lnurl
 
-from pylnbits.utils import get_url, post_url
+from pylnbits.utils import delete_url, put_url, get_url, get_url_resp, post_url
 
 """
 Rest API methods for LNbits Invoices Extension
@@ -58,7 +58,7 @@ class Invoices:
             logger.info(e)
             return e
 
-    # returns an Invoice
+    # Returns an Invoice
     async def get_invoice(self, invoice_id):
         """
             GET /invoices/api/v1/invoice/{invoice_id}
@@ -135,6 +135,73 @@ class Invoices:
             path = self._lnbits_url + upath
             jbody = json.dumps(invoice_dto.to_dict())
             res = await post_url(session=self._session, path=path, headers=self._invoice_headers, body=jbody)
+            return res
+        except Exception as e:
+            logger.info(e)
+            return e
+        
+
+    # Creates an Invoice Payment
+    async def create_invoice_payment(self, invoice_id, famount=300):
+        """
+            POST /invoices/api/v1/invoice/{invoice_id}/payments?famount=300
+
+            Headers
+            {"X-Api-Key": <invoice_key>}
+            Body (application/json)
+
+            Returns 200 OK (application/json)
+            {payment_object}
+
+        """
+        try:
+            upath = "/invoices/api/v1/invoice/" + invoice_id +"/payments?famount="+ str(famount)
+            path = self._lnbits_url + upath
+            jbody = "{}"
+            res = await post_url(session=self._session, path=path, headers=self._invoice_headers, body=jbody)
+            return res
+        except Exception as e:
+            logger.info(e)
+            return e
+        
+    # Returns Invoice_payment_status
+    async def get_invoice_payment_status(self, invoice_id, payment_hash):
+        """
+            GET /invoices/api/v1/invoice/{invoice_id}/payments/{payment_hash}
+
+            Headers
+            {"X-Api-Key": <invoice_key>}
+            Body (application/json)
+
+            Returns 200 OK (application/json)
+            {invoice_object}
+        """
+        try:
+            upath = "/invoices/api/v1/invoice/" + invoice_id + "/payments/" + payment_hash
+            path = self._lnbits_url + upath
+            res = await get_url(session=self._session, path=path, headers=self._invoice_headers)
+            return res
+        except Exception as e:
+            logger.info(e)
+            return e
+
+    # Delete an Invoice
+    async def delete_invoice(self, invoice_id):
+        """
+        DELETE /invoices/api/v1/invoice/{invoice_id}
+
+        Headers
+        {"X-Api-Key": <admin_key>}
+
+        Body (application/json)
+        
+        Returns 
+            200 OK (application/json)
+        """
+        try:
+            upath = "/invoices/api/v1/invoice/" + invoice_id
+            path = self._lnbits_url + upath
+            res = await delete_url(session=self._session, path=path, headers=self._admin_headers)
             return res
         except Exception as e:
             logger.info(e)
