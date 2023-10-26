@@ -50,7 +50,6 @@ async def main():
         print(f"Invoice payment status:\n{res}\n")
 
         # update invoice
-        # update the invoice_id for your test case
         invoice_dto = InvoiceDTO("wallet", "EUR", "draft")
         invoice_dto.id = invoice_id
         invoice_dto.company_name = 'my_company_name10_1'
@@ -70,6 +69,3 @@ async def main():
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
-
-#DeprecationWarning: There is no current event loop
-#  loop = asyncio.get_event_loop()
