@@ -1,3 +1,6 @@
+"""
+InvoiceDTO stands for Invoice Data Transfer Object
+"""
 class InvoiceDTO:
     def __init__(self, wallet, currency, status="draft"):
         self.id = ""
