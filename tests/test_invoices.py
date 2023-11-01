@@ -5,6 +5,7 @@ from pylnbits.config import Config
 from pylnbits.invoices import Invoices
 from pylnbits.DTOs.invoice_dto import InvoiceDTO
 
+
 async def main():
 
     c = Config(config_file="config.yml")
@@ -16,7 +17,7 @@ async def main():
     async with ClientSession() as session:
 
         inv = Invoices(c, session)
-        print(f"\n")
+        print("\n")
 
         # create invoice
         invoice_dto = InvoiceDTO("wallet", "EUR", "open")
@@ -26,11 +27,11 @@ async def main():
         invoice_dto.email = 'my_email@email.com'
         invoice_dto.address = 'my_address'
         invoice_dto.phone = 'my_phone_number'
-        invoice_dto.items = [{"description": "item1", "amount": 5}, {"description": "item2", "amount": 3}]
+        invoice_dto.items = [{"description": "item1", "amount": 5},
+                             {"description": "item2", "amount": 3}]
         res = await inv.create_invoice(invoice_dto)
         print(f"Created invoice \n{res}\n")
 
-        
         invoice_id = res['id']
         # get invoices
         invoices = await inv.get_invoices()
@@ -58,11 +59,12 @@ async def main():
         invoice_dto.email = 'my_email@email.com1'
         invoice_dto.address = 'my_address1'
         invoice_dto.phone = 'my_phone_number1'
-        invoice_dto.items = [{"description": "item33", "amount": 5}, {"description": "item24", "amount": 3}]
+        invoice_dto.items = [{"description": "item33", "amount": 5},
+                             {"description": "item24", "amount": 3}]
         res = await inv.update_invoice(invoice_dto)
         print(f"Updated invoice: \n{res}\n")
 
-        #delete invoice
+        # delete invoice
         res = await inv.delete_invoice(invoice_id)
         print(f"Delete Invoice result::\n{res}\n")
 
