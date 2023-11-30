@@ -13,7 +13,7 @@ aiohttp = "3.9.1"
 lnurl= "^0.3.6"
 lnbits = "^0.10"
 mkdocs = "1.5.3"
-mkdocstrings = "0.23.0"
+mkdocstrings = "0.24.0"
 
 
 [tool.poetry.dev-dependencies]
