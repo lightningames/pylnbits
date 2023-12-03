@@ -88,6 +88,9 @@ Check linting and formatting
 Build for distribution
 `python3 setup.py build`
 
+Also see Tutorials for build to release on PyPi for uploading distribution archives
+https://packaging.python.org/en/latest/tutorials/packaging-projects/
+
 
 
 Run Examples
