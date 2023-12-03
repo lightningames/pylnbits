@@ -37,7 +37,7 @@
           <a href=".." class="icon icon-home"> Pylnbits Docs
         </a><div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -71,6 +71,8 @@
     <li class="toctree-l3"><a class="reference internal" href="#pylnbits.user_wallet.UserWallet.create_invoice">create_invoice()</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#pylnbits.user_wallet.UserWallet.get_bolt11">get_bolt11()</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pylnbits.user_wallet.UserWallet.get_bolt11_from_lnurlp">get_bolt11_from_lnurlp()</a>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#pylnbits.user_wallet.UserWallet.get_decoded">get_decoded()</a>
     </li>
@@ -184,7 +186,7 @@
       <div class="wy-nav-content">
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href=".." class="icon icon-home" aria-label="Docs"></a> &raquo;</li>
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
       <li>Reference</li>
     <li class="wy-breadcrumbs-aside">
           <a href="https://github.com/lightningames/pylnbits/blob/main/docs/reference.md" class="icon icon-github"> Edit on GitHub</a>
@@ -342,8 +344,7 @@ reference for the technical implementation of the
 
         <details class="quote">
           <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 34</span>
-<span class="normal"> 35</span>
+          <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 35</span>
 <span class="normal"> 36</span>
 <span class="normal"> 37</span>
 <span class="normal"> 38</span>
@@ -585,7 +586,34 @@ reference for the technical implementation of the
 <span class="normal">274</span>
 <span class="normal">275</span>
 <span class="normal">276</span>
-<span class="normal">277</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UserWallet</span><span class="p">:</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span> <span class="nc">UserWallet</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">ClientSession</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;__init__</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -796,6 +824,47 @@ reference for the technical implementation of the
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exception, possibly malformed LN Address: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
+    <span class="c1"># generates bolt11 invoice from payurl and amount to pay</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_bolt11_from_payurl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purl</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">json_content</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">purl</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_invoice_headers</span><span class="p">)</span>
+        <span class="n">lnurlpay</span> <span class="o">=</span> <span class="n">json_content</span><span class="p">[</span><span class="s2">&quot;callback&quot;</span><span class="p">]</span>
+
+        <span class="n">millisats</span> <span class="o">=</span> <span class="n">amount</span> <span class="o">*</span> <span class="mi">1000</span>
+        <span class="n">payquery</span> <span class="o">=</span> <span class="n">lnurlpay</span> <span class="o">+</span> <span class="s2">&quot;?amount=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">millisats</span><span class="p">)</span>
+
+        <span class="c1"># get bech32-serialized lightning invoice</span>
+        <span class="n">pr_dict</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">payquery</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_invoice_headers</span><span class="p">)</span>
+        <span class="c1"># check keys returned for status</span>
+        <span class="k">if</span> <span class="s2">&quot;status&quot;</span> <span class="ow">in</span> <span class="n">pr_dict</span><span class="p">:</span>
+            <span class="n">reason</span> <span class="o">=</span> <span class="n">pr_dict</span><span class="p">[</span><span class="s2">&quot;reason&quot;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">reason</span>
+        <span class="k">elif</span> <span class="s2">&quot;pr&quot;</span> <span class="ow">in</span> <span class="n">pr_dict</span><span class="p">:</span>
+            <span class="n">bolt11</span> <span class="o">=</span> <span class="n">pr_dict</span><span class="p">[</span><span class="s2">&quot;pr&quot;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">bolt11</span>
+
+
+
+    <span class="c1"># from LNURLPay link</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_bolt11_from_lnurlp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lnurlp_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        fail state</span>
+<span class="sd">        {&#39;reason&#39;: &#39;Amount not between min_sendable and max_sendable&#39;, &#39;status&#39;: &#39;ERROR&#39;}</span>
+
+<span class="sd">        success state</span>
+<span class="sd">        {&#39;pr&#39;: &#39;lnbc1......azgfe0&#39;,</span>
+<span class="sd">        &#39;routes&#39;: [], &#39;successAction&#39;: {&#39;description&#39;: &#39;Thanks love for the lightning!&#39;,</span>
+<span class="sd">        &#39;tag&#39;: &#39;url&#39;, &#39;url&#39;: &#39;https:/.......&#39;}}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">lnurl</span> <span class="o">=</span> <span class="n">Lnurl</span><span class="p">(</span><span class="n">lnurlp_string</span><span class="p">)</span>
+            <span class="n">purl</span> <span class="o">=</span> <span class="n">lnurl</span><span class="o">.</span><span class="n">url</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bolt11_from_payurl</span><span class="p">(</span><span class="n">purl</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exception as: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+            <span class="k">return</span> <span class="n">e</span>
+
+
     <span class="c1"># from lnaddress</span>
     <span class="k">async</span> <span class="k">def</span> <span class="nf">get_bolt11</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -809,23 +878,8 @@ reference for the technical implementation of the
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">purl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_payurl</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
-            <span class="n">json_content</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">purl</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_invoice_headers</span><span class="p">)</span>
-            <span class="c1"># res =  requests.get(purl)</span>
-            <span class="n">lnurlpay</span> <span class="o">=</span> <span class="n">json_content</span><span class="p">[</span><span class="s2">&quot;callback&quot;</span><span class="p">]</span>
+            <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bolt11_from_payurl</span><span class="p">(</span><span class="n">purl</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
 
-            <span class="n">millisats</span> <span class="o">=</span> <span class="n">amount</span> <span class="o">*</span> <span class="mi">1000</span>
-            <span class="n">payquery</span> <span class="o">=</span> <span class="n">lnurlpay</span> <span class="o">+</span> <span class="s2">&quot;?amount=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">millisats</span><span class="p">)</span>
-
-            <span class="c1"># get bech32-serialized lightning invoice</span>
-            <span class="c1"># pr_dict =  requests.get(payquery)</span>
-            <span class="n">pr_dict</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">payquery</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_invoice_headers</span><span class="p">)</span>
-            <span class="c1"># check keys returned for status</span>
-            <span class="k">if</span> <span class="s2">&quot;status&quot;</span> <span class="ow">in</span> <span class="n">pr_dict</span><span class="p">:</span>
-                <span class="n">reason</span> <span class="o">=</span> <span class="n">pr_dict</span><span class="p">[</span><span class="s2">&quot;reason&quot;</span><span class="p">]</span>
-                <span class="k">return</span> <span class="n">reason</span>
-            <span class="k">elif</span> <span class="s2">&quot;pr&quot;</span> <span class="ow">in</span> <span class="n">pr_dict</span><span class="p">:</span>
-                <span class="n">bolt11</span> <span class="o">=</span> <span class="n">pr_dict</span><span class="p">[</span><span class="s2">&quot;pr&quot;</span><span class="p">]</span>
-                <span class="k">return</span> <span class="n">bolt11</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exception as: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">e</span>
@@ -881,8 +935,7 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">35</span>
-<span class="normal">36</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">36</span>
 <span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
@@ -890,7 +943,8 @@ reference for the technical implementation of the
 <span class="normal">41</span>
 <span class="normal">42</span>
 <span class="normal">43</span>
-<span class="normal">44</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">ClientSession</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="normal">44</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">session</span><span class="p">:</span> <span class="n">ClientSession</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;__init__</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="n">session</span>
@@ -930,8 +984,7 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">73</span>
-<span class="normal">74</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">74</span>
 <span class="normal">75</span>
 <span class="normal">76</span>
 <span class="normal">77</span>
@@ -949,7 +1002,8 @@ reference for the technical implementation of the
 <span class="normal">89</span>
 <span class="normal">90</span>
 <span class="normal">91</span>
-<span class="normal">92</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">check_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">hash</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">92</span>
+<span class="normal">93</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">check_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">hash</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check an invoice (incoming or outgoing)</span>
 
@@ -1006,8 +1060,7 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
-<span class="normal"> 95</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 95</span>
 <span class="normal"> 96</span>
 <span class="normal"> 97</span>
 <span class="normal"> 98</span>
@@ -1036,7 +1089,8 @@ reference for the technical implementation of the
 <span class="normal">121</span>
 <span class="normal">122</span>
 <span class="normal">123</span>
-<span class="normal">124</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">create_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">amt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">memo</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">webhook</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">124</span>
+<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">create_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">amt</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">memo</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">webhook</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create an invoice(incoming)</span>
 
@@ -1098,38 +1152,23 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
-<span class="normal">254</span>
-<span class="normal">255</span>
-<span class="normal">256</span>
-<span class="normal">257</span>
-<span class="normal">258</span>
-<span class="normal">259</span>
-<span class="normal">260</span>
-<span class="normal">261</span>
-<span class="normal">262</span>
-<span class="normal">263</span>
-<span class="normal">264</span>
-<span class="normal">265</span>
-<span class="normal">266</span>
-<span class="normal">267</span>
-<span class="normal">268</span>
-<span class="normal">269</span>
-<span class="normal">270</span>
-<span class="normal">271</span>
-<span class="normal">272</span>
-<span class="normal">273</span>
-<span class="normal">274</span>
-<span class="normal">275</span>
-<span class="normal">276</span>
-<span class="normal">277</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_bolt11</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span>
+<span class="normal">297</span>
+<span class="normal">298</span>
+<span class="normal">299</span>
+<span class="normal">300</span>
+<span class="normal">301</span>
+<span class="normal">302</span>
+<span class="normal">303</span>
+<span class="normal">304</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_bolt11</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    fail state</span>
 <span class="sd">    {&#39;reason&#39;: &#39;Amount 100 is smaller than minimum 100000.&#39;, &#39;status&#39;: &#39;ERROR&#39;}</span>
@@ -1141,23 +1180,74 @@ reference for the technical implementation of the
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">purl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_payurl</span><span class="p">(</span><span class="n">email</span><span class="p">)</span>
-        <span class="n">json_content</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">purl</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_invoice_headers</span><span class="p">)</span>
-        <span class="c1"># res =  requests.get(purl)</span>
-        <span class="n">lnurlpay</span> <span class="o">=</span> <span class="n">json_content</span><span class="p">[</span><span class="s2">&quot;callback&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bolt11_from_payurl</span><span class="p">(</span><span class="n">purl</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
 
-        <span class="n">millisats</span> <span class="o">=</span> <span class="n">amount</span> <span class="o">*</span> <span class="mi">1000</span>
-        <span class="n">payquery</span> <span class="o">=</span> <span class="n">lnurlpay</span> <span class="o">+</span> <span class="s2">&quot;?amount=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">millisats</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exception as: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">e</span>
+</code></pre></div></td></tr></table></div>
+      </details>
+  </div>
 
-        <span class="c1"># get bech32-serialized lightning invoice</span>
-        <span class="c1"># pr_dict =  requests.get(payquery)</span>
-        <span class="n">pr_dict</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">payquery</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_invoice_headers</span><span class="p">)</span>
-        <span class="c1"># check keys returned for status</span>
-        <span class="k">if</span> <span class="s2">&quot;status&quot;</span> <span class="ow">in</span> <span class="n">pr_dict</span><span class="p">:</span>
-            <span class="n">reason</span> <span class="o">=</span> <span class="n">pr_dict</span><span class="p">[</span><span class="s2">&quot;reason&quot;</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">reason</span>
-        <span class="k">elif</span> <span class="s2">&quot;pr&quot;</span> <span class="ow">in</span> <span class="n">pr_dict</span><span class="p">:</span>
-            <span class="n">bolt11</span> <span class="o">=</span> <span class="n">pr_dict</span><span class="p">[</span><span class="s2">&quot;pr&quot;</span><span class="p">]</span>
-            <span class="k">return</span> <span class="n">bolt11</span>
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+
+<h3 id="pylnbits.user_wallet.UserWallet.get_bolt11_from_lnurlp" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">get_bolt11_from_lnurlp</span><span class="p">(</span><span class="n">lnurlp_string</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span></code>
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-async"><code>async</code></small>
+  </span>
+
+</h3>
+
+
+  <div class="doc doc-contents ">
+  
+      <p>fail state
+{'reason': 'Amount not between min_sendable and max_sendable', 'status': 'ERROR'}</p>
+<p>success state
+{'pr': 'lnbc1......azgfe0',
+'routes': [], 'successAction': {'description': 'Thanks love for the lightning!',
+'tag': 'url', 'url': 'https:/.......'}}</p>
+
+      <details class="quote">
+        <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">267</span>
+<span class="normal">268</span>
+<span class="normal">269</span>
+<span class="normal">270</span>
+<span class="normal">271</span>
+<span class="normal">272</span>
+<span class="normal">273</span>
+<span class="normal">274</span>
+<span class="normal">275</span>
+<span class="normal">276</span>
+<span class="normal">277</span>
+<span class="normal">278</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_bolt11_from_lnurlp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lnurlp_string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">amount</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    fail state</span>
+<span class="sd">    {&#39;reason&#39;: &#39;Amount not between min_sendable and max_sendable&#39;, &#39;status&#39;: &#39;ERROR&#39;}</span>
+
+<span class="sd">    success state</span>
+<span class="sd">    {&#39;pr&#39;: &#39;lnbc1......azgfe0&#39;,</span>
+<span class="sd">    &#39;routes&#39;: [], &#39;successAction&#39;: {&#39;description&#39;: &#39;Thanks love for the lightning!&#39;,</span>
+<span class="sd">    &#39;tag&#39;: &#39;url&#39;, &#39;url&#39;: &#39;https:/.......&#39;}}</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">lnurl</span> <span class="o">=</span> <span class="n">Lnurl</span><span class="p">(</span><span class="n">lnurlp_string</span><span class="p">)</span>
+        <span class="n">purl</span> <span class="o">=</span> <span class="n">lnurl</span><span class="o">.</span><span class="n">url</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bolt11_from_payurl</span><span class="p">(</span><span class="n">purl</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
+
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Exception as: &quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">e</span>
@@ -1191,8 +1281,7 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
-<span class="normal">159</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
 <span class="normal">162</span>
@@ -1211,7 +1300,8 @@ reference for the technical implementation of the
 <span class="normal">175</span>
 <span class="normal">176</span>
 <span class="normal">177</span>
-<span class="normal">178</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_decoded</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bolt11</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">178</span>
+<span class="normal">179</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_decoded</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bolt11</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    POST /api/v1/payments/decode</span>
 
@@ -1262,8 +1352,7 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">193</span>
-<span class="normal">194</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
@@ -1280,7 +1369,8 @@ reference for the technical implementation of the
 <span class="normal">208</span>
 <span class="normal">209</span>
 <span class="normal">210</span>
-<span class="normal">211</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_invoices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">211</span>
+<span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_invoices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get invoices (incoming or outgoing)</span>
 
@@ -1328,8 +1418,7 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">213</span>
-<span class="normal">214</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">214</span>
 <span class="normal">215</span>
 <span class="normal">216</span>
 <span class="normal">217</span>
@@ -1343,7 +1432,8 @@ reference for the technical implementation of the
 <span class="normal">225</span>
 <span class="normal">226</span>
 <span class="normal">227</span>
-<span class="normal">228</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_invoicesbymemo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">228</span>
+<span class="normal">229</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_invoicesbymemo</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    GET /api/v1/payments?memo=&lt;memo&gt;</span>
 
@@ -1385,8 +1475,7 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">181</span>
-<span class="normal">182</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
@@ -1395,7 +1484,8 @@ reference for the technical implementation of the
 <span class="normal">188</span>
 <span class="normal">189</span>
 <span class="normal">190</span>
-<span class="normal">191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_payhash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bolt11</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">191</span>
+<span class="normal">192</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_payhash</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bolt11</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Only returns the payment hash not entire decoded invoice</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1428,8 +1518,7 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">231</span>
-<span class="normal">232</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">232</span>
 <span class="normal">233</span>
 <span class="normal">234</span>
 <span class="normal">235</span>
@@ -1440,7 +1529,8 @@ reference for the technical implementation of the
 <span class="normal">240</span>
 <span class="normal">241</span>
 <span class="normal">242</span>
-<span class="normal">243</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_payurl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">243</span>
+<span class="normal">244</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">get_payurl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Construct Lnurlp link from email address provided.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1483,8 +1573,7 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">52</span>
-<span class="normal">53</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
 <span class="normal">56</span>
@@ -1502,7 +1591,8 @@ reference for the technical implementation of the
 <span class="normal">68</span>
 <span class="normal">69</span>
 <span class="normal">70</span>
-<span class="normal">71</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_wallet_details</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">71</span>
+<span class="normal">72</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_wallet_details</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    GET /api/v1/wallet</span>
 
@@ -1559,8 +1649,7 @@ reference for the technical implementation of the
 
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_wallet.py</code></summary>
-        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">126</span>
-<span class="normal">127</span>
+        <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">127</span>
 <span class="normal">128</span>
 <span class="normal">129</span>
 <span class="normal">130</span>
@@ -1589,7 +1678,8 @@ reference for the technical implementation of the
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
-<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">pay_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">bolt11</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="normal">156</span>
+<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">pay_invoice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">bolt11</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Pay an invoice (outgoing)</span>
 
@@ -2273,27 +2363,23 @@ reference for the technical implementation of the
   
       <p>get users managed by the User Manager Extension</p>
 
-<table class="field-list">
-  <colgroup>
-    <col class="field-name" />
-    <col class="field-body" />
-  </colgroup>
-  <tbody valign="top">
-    <tr class="field">
-    <th class="field-name">Returns:</th>
-    <td class="field-body">
-      <ul class="first simple">
-          <li>
-            –
-            <div class="doc-md-description">
-              <p>JSON list of users</p>
-            </div>
-          </li>
-      </ul>
-    </td>
-    </tr>
-  </tbody>
-</table>
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+          </td>
+          <td><p>JSON list of users</p></td>
+        </tr>
+    </tbody>
+  </table>
+
       <details class="quote">
         <summary>Source code in <code>pylnbits/user_manager.py</code></summary>
         <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">44</span>
