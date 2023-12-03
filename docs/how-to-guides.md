@@ -127,7 +127,7 @@ loop.run_until_complete(main())
 For more details on what values need to be passed to the above pylnbits example, please check the LNBits API docs, which should be located on the LNBits website in the section below your the Admin and Invoice Key. Expand the tabs as shown in the image below.
 
 
-![API detail](images/api_info.png)
+![API detail](images/API_info.png)
 
 
 ### Sample code for LNURLp

@@ -45,8 +45,7 @@ class UserManager:
         """
             get users managed by the User Manager Extension
 
-            Returns: 
-                JSON list of users
+            Returns JSON list of users
         """
         try:
             upath = "/usermanager/api/v1/users"
