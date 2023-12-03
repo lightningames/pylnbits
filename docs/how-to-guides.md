@@ -5,6 +5,7 @@ This is a brief guide on how to use the pylnbits library. First create an an acc
 Next, click on `enable extensions` in the side navigation bar on your LNBits account. Enable the extensions that you want to use. Extension use is *optional*, and is not required for generating invoices or receiving payments. The **pylnbits** library currently only supports the following extensions from [LNBits](https://lnbits.com):
 
 - User Wallet (not an extension, created initially)
+- Invoices
 - User Manager
 - LNURLp
 - LNURLw
@@ -25,8 +26,7 @@ pip install -e .
 ```
 
 ### Release Note
-Current pylnbits release is **0.0.6**
-Full Changelog can be found [here](https://github.com/lightningames/pylnbits/compare/v0.0.5...v0.0.6)
+Current pylnbits release is **0.0.8**
 
 It is only effective up to LNBITS commit
 [https://github.com/lnbits/lnbits-legend/commit/e46e881663eb4d70b691e09ac1c97eecd6b547b8
