@@ -66,6 +66,7 @@ NOTE: This is experimental software. The only modules & Extensions covered prese
 - LNURLp
 - LNURLw
 - LndHub
+- Invoices
 
 If you would like to contribute, please feel free to make a pull request. 
 
