@@ -28,11 +28,6 @@ pip install -e .
 ### Release Note
 Current pylnbits release is **0.0.8**
 
-It is only effective up to LNBITS commit
-[https://github.com/lnbits/lnbits-legend/commit/e46e881663eb4d70b691e09ac1c97eecd6b547b8
-](https://github.com/lnbits/lnbits-legend/commit/e46e881663eb4d70b691e09ac1c97eecd6b547b8
-)
-
 ###### Resolved Bugs
 - UnboundLocalError when config_file is None
 - /api/v1/payments/decode expects the body as json
