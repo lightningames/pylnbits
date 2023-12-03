@@ -73,7 +73,7 @@ If you would like to contribute, please feel free to make a pull request.
 
 ## Library Installation
 
-current release is 0.0.8, tested to LNBits 0.11.2
+current release is 0.0.9, tested to LNBits 0.11.2
 
 ```
 pip install pylnbits
