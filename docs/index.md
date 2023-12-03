@@ -19,8 +19,10 @@ Get the Source: [https://github.com/lightningames/pylnbits](https://github.com/l
         ...       # Other markdown pages, images and other files.
     config_sample.yml
     pylnbits/
+        DTOs
         __init__.py
         config.py
+        invoices.py
         lndhub.py
         lnurl_p.py
         lnurl_w.py
@@ -29,6 +31,7 @@ Get the Source: [https://github.com/lightningames/pylnbits](https://github.com/l
         utils.py
     tests/
         __init__.py
+        test_invoices.py
         test_lndhub.py
         test_lnurlp.py
         test_lnurlw.py
