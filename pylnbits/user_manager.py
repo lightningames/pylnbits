@@ -21,7 +21,8 @@ POST activate extension
 """
 
 ###################################
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO,
+                    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logging.getLogger("pylnbits").setLevel(level=logging.WARNING)
 logger = logging.getLogger(__name__)
 ###################################
@@ -30,7 +31,7 @@ logger = logging.getLogger(__name__)
 class UserManager:
     def __init__(self, config, session: ClientSession = None):
         """__init__
-            
+
             Initializes a UserManager extension via API
 
         """
@@ -50,7 +51,8 @@ class UserManager:
         try:
             upath = "/usermanager/api/v1/users"
             path = self._lnbits_url + upath
-            res = await get_url(session=self._session, path=path, headers=self._invoice_headers)
+            res = await get_url(session=self._session, path=path,
+                                headers=self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -66,7 +68,8 @@ class UserManager:
         try:
             upath = "/usermanager/api/v1/users/" + user_id
             path = self._lnbits_url + upath
-            res = await get_url(session=self._session, path=path, headers=self._invoice_headers)
+            res = await get_url(session=self._session,
+                                path=path, headers=self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -82,7 +85,8 @@ class UserManager:
         try:
             wpath = "/usermanager/api/v1/wallets/" + user_id
             path = self._lnbits_url + wpath
-            res = await get_url(session=self._session, path=path, headers=self._invoice_headers)
+            res = await get_url(session=self._session, path=path,
+                                headers=self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -98,7 +102,8 @@ class UserManager:
         try:
             tpath = "/usermanager/api/v1/wallets" + wallet_id
             path = self._lnbits_url + tpath
-            res = await get_url(session=self._session, path=path, headers=self._invoice_headers)
+            res = await get_url(session=self._session, path=path,
+                                headers=self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -111,9 +116,11 @@ class UserManager:
         try:
             tpath = "/usermanager/api/v1/users"
             path = self._lnbits_url + tpath
-            body = {"admin_id": admin_id, "user_name": user_name, "wallet_name": wallet_name}
+            body = {"admin_id": admin_id, "user_name": user_name,
+                    "wallet_name": wallet_name}
             jbody = json.dumps(body)
-            res = await post_url(session=self._session, path=path, headers=self._invoice_headers, body=jbody)
+            res = await post_url(session=self._session, path=path,
+                                 headers=self._invoice_headers, body=jbody)
             return res
         except Exception as e:
             logger.info(e)
@@ -127,14 +134,17 @@ class UserManager:
         """
             Post_wallet returns api keys related to wallet
 
-            Returns {"id": <string>, "admin": <string>, "name": <string>, "user": <string>, "adminkey": <string>, "inkey": <string>}
+            Returns {"id": <string>, "admin": <string>, "name": <string>,
+            "user": <string>, "adminkey": <string>, "inkey": <string>}
         """
         try:
             tpath = "/usermanager/api/v1/wallets"
             path = self._lnbits_url + tpath
-            body = {"user_id": user_id, "wallet_name": wallet_name, "admin_id": admin_id}
+            body = {"user_id": user_id, "wallet_name": wallet_name,
+                    "admin_id": admin_id}
             jbody = json.dumps(body)
-            res = await post_url(session=self._session, path=path, headers=self._invoice_headers, body=jbody)
+            res = await post_url(session=self._session,
+                                 path=path, headers=self._invoice_headers, body=jbody)
             return res
         except Exception as e:
             logger.info(e)
@@ -147,7 +157,8 @@ class UserManager:
         try:
             tpath = "/usermanager/api/v1/users/" + user_id
             path = self._lnbits_url + tpath
-            res = await delete_url(session=self._session, path=path, headers=self._invoice_headers)
+            res = await delete_url(session=self._session,
+                                   path=path, headers=self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -160,7 +171,8 @@ class UserManager:
         try:
             tpath = "/usermanager/api/v1/wallets/" + wallet_id
             path = self._lnbits_url + tpath
-            res = await delete_url(session=self._session, path=path, headers=self._invoice_headers)
+            res = await delete_url(session=self._session,
+                                   path=path, headers=self._invoice_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -178,7 +190,8 @@ class UserManager:
             path = self._lnbits_url + tpath
             body = {"userid": user_id, "extension": extension, "active": active}
             jbody = json.dumps(body)
-            res = await post_url(session=self._session, path=path, headers=self._invoice_headers, body=jbody)
+            res = await post_url(session=self._session, path=path,
+                                headers=self._invoice_headers, body=jbody)
             return res
         except Exception as e:
             logger.info(e)
