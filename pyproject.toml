@@ -12,7 +12,7 @@ PyYAML = "6.0.1"
 aiohttp = "3.9.4"
 lnurl= "^0.3.6"
 lnbits = "^0.10"
-mkdocs = "1.5.3"
+mkdocs = "1.6.0"
 mkdocstrings = "0.24.3"
 
 
