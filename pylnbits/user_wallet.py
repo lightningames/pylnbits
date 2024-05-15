@@ -1,6 +1,8 @@
 import json
 import logging
 
+import hashlib
+
 from aiohttp.client import ClientSession
 from lnurl import Lnurl
 
@@ -40,6 +42,7 @@ class UserWallet:
         self._config = config
         self._invoice_headers = config.invoice_headers()
         self._admin_headers = config.admin_headers()
+        self._headers = config.headers()
         self._lnbits_url = config.lnbits_url
         self.paypath = "/api/v1/payments"
         self.walletpath = "/api/v1/wallet"
@@ -299,6 +302,77 @@ class UserWallet:
             purl = self.get_payurl(email)
             return await self.get_bolt11_from_payurl(purl, amount)
 
+        except Exception as e:
+            print("Exception as: ", str(e))
+            return e
+        
+    #Pay LNURL
+    async def pay_lnurl(self, lnurl_str: str, amount: int, comment: str, description: str):
+        """
+        Success state
+        {'success_action': None, 
+        'payment_hash': '2dac7....', 
+        'checking_id': '2dac7....'}
+        """
+        try:
+            #convert amount to millisats
+            amount = amount * 1000
+
+            decoded = await self.get_decoded(lnurl_str)
+
+            if "domain" in decoded:
+                domain = decoded["domain"]
+                res = await get_url(self._session, path=domain, headers=self._headers)
+
+                if "callback" in res and "metadata" in res:
+                    callback = res["callback"]
+                    metadata_hash = hashlib.sha256(res["metadata"].encode()).hexdigest()
+                    result = await self.process_lnresponse(metadata_hash, callback, amount, comment, description)
+                    return result
+                else:
+                    return None
+            else:
+                return None
+        except Exception as e:
+            print("Exception as: ", str(e))
+            return e
+
+    #Pay LN Address
+    async def pay_lnaddress(self, email: str, amount: int, comment: str, description: str):
+        """
+        Success state
+
+        {'success_action': {'tag': 'message', 'message': 'Thanks, sats received!'}, 
+        'payment_hash': '67nn.....', 
+        'checking_id': '67nn.....'}
+        """
+        try:
+            #convert amount to millisats
+            amount = amount * 1000
+
+            ln_str = self.get_payurl(email)
+            res = await get_url(self._session, path=ln_str, headers=self._headers)
+
+            if "callback" in res and "metadata" in res:
+                callback = res["callback"]
+                metadata_hash = hashlib.sha256(res["metadata"].encode()).hexdigest()
+                result = await self.process_lnresponse(metadata_hash, callback, amount, comment, description)
+                return result
+            else:
+                return None
+        except Exception as e:
+            print("Exception as: ", str(e))
+        return e
+
+
+    #Process LNURL response
+    async def process_lnresponse(self, metadata_hash: str, callback: str, amount: int, comment: str, description: str):
+        try:
+            path = self._lnbits_url + self.paypath + "/lnurl"
+            body = {"description_hash": metadata_hash, "callback": callback, "amount": amount, "comment": comment, "description": description}
+            j = json.dumps(body)
+            res = await post_url(self._session, path=path, headers=self._admin_headers, body=j)
+            return res
         except Exception as e:
             print("Exception as: ", str(e))
             return e

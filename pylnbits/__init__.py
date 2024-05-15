@@ -12,6 +12,8 @@ Modules exported by this package:
     - Decode an invoice (new)
     - Get invoices (incoming or outgoing) (new) 
     - Get invoice(s) by memo (incoming or outgoing (new) 
+    - Pay LNURL
+    - Pay lightning address
 - `user_manager.py`: For managing multiple users on LNBits, calls Rest API methods from LNbits User Manager Extension
 
     - GET users
