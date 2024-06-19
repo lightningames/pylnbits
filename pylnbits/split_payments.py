@@ -85,7 +85,8 @@ class SplitPayments:
             
             # response body is null when successful. Return the updated list
             if res is None:
-                return body
+                updatedlist = await self.get_target_wallets()
+                return {"targets" : updatedlist}
             return res
         except Exception as e:
             logger.info(e)
