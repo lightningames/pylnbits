@@ -48,8 +48,7 @@ class SplitPayments:
 
         """
         try:
-            upath = self.splitpath
-            path = self._lnbits_url + upath
+            path = self._lnbits_url + self.splitpath
             res = await get_url(self._session, path=path, headers=self._admin_headers)
             return res
         except Exception as e:
@@ -71,8 +70,7 @@ class SplitPayments:
         `percent` can up to 6 decimal places
         """
         try:
-            upath = self.splitpath
-            path = self._lnbits_url + upath
+            path = self._lnbits_url + self.splitpath
 
             # check if there are other targets to avoid overwriting
             targets = await self.get_target_wallets()
@@ -104,8 +102,7 @@ class SplitPayments:
         200 OK
         """
         try:
-            upath = self.splitpath
-            path = self._lnbits_url + upath
+            path = self._lnbits_url + self.splitpath
             res = await delete_url(self._session, path=path, headers=self._admin_headers)
             # response body is null when successful.
             return res
