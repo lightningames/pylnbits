@@ -44,4 +44,8 @@ Modules exported by this package:
 
 - `lndhub.py`: for fetching admin and invoice lndhub urls
 
+- `split_payments.py`: For target wallets, calls Rest API methods for LNbits Split Payments Extension
+    - List target wallets
+    - Add target wallet
+    - Delete a target wallet
 """

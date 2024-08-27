@@ -43,6 +43,20 @@ async def main():
         res = await uw.pay_invoice(True, bolt)
         print(res)
 
+        # pay lnurl
+        # This is a fictional LNURL for example purposes. Replace with your own. 
+        paylnurl = "LNURL1DP68GURN8GHJ7MRWW4EXCTNZD3SHXCTE0D3SKUM0W4KHU7DF89KHK7YM89KCMRDV0658QSTVV4RY"
+        # pay_lnurl(lnurl, amount, comment, description)
+        res = await uw.pay_lnurl(paylnurl, 10, "hello", "hello")
+        print(res)
+
+        # pay lnaddress
+        # This is a fictional lightning address for example purposes. Replace with your own. 
+        lnaddress = "wonderful@example.com"
+        # pay_lnaddress(lnurl, amount, comment, description)
+        res = await uw.pay_lnaddress(lnaddress, 10, "sunshine", "hello")
+        print(res)
+
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
