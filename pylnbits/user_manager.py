@@ -1,6 +1,8 @@
 import json
 import logging
 
+import urllib.parse
+
 from aiohttp.client import ClientSession
 
 from pylnbits.utils import delete_url, get_url, post_url
@@ -52,7 +54,7 @@ class UserManager:
             upath = "/usermanager/api/v1/users"
             path = self._lnbits_url + upath
             res = await get_url(session=self._session, path=path,
-                                headers=self._invoice_headers)
+                                headers=self._admin_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -86,7 +88,7 @@ class UserManager:
             wpath = "/usermanager/api/v1/wallets/" + user_id
             path = self._lnbits_url + wpath
             res = await get_url(session=self._session, path=path,
-                                headers=self._invoice_headers)
+                                headers=self._admin_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -120,7 +122,7 @@ class UserManager:
                     "wallet_name": wallet_name}
             jbody = json.dumps(body)
             res = await post_url(session=self._session, path=path,
-                                 headers=self._invoice_headers, body=jbody)
+                                 headers=self._admin_headers, body=jbody)
             return res
         except Exception as e:
             logger.info(e)
@@ -144,7 +146,7 @@ class UserManager:
                     "admin_id": admin_id}
             jbody = json.dumps(body)
             res = await post_url(session=self._session,
-                                 path=path, headers=self._invoice_headers, body=jbody)
+                                 path=path, headers=self._admin_headers, body=jbody)
             return res
         except Exception as e:
             logger.info(e)
@@ -158,7 +160,7 @@ class UserManager:
             tpath = "/usermanager/api/v1/users/" + user_id
             path = self._lnbits_url + tpath
             res = await delete_url(session=self._session,
-                                   path=path, headers=self._invoice_headers)
+                                   path=path, headers=self._admin_headers)
             return res
         except Exception as e:
             logger.info(e)
@@ -172,26 +174,23 @@ class UserManager:
             tpath = "/usermanager/api/v1/wallets/" + wallet_id
             path = self._lnbits_url + tpath
             res = await delete_url(session=self._session,
-                                   path=path, headers=self._invoice_headers)
+                                   path=path, headers=self._admin_headers)
             return res
         except Exception as e:
             logger.info(e)
             return e
 
-    # temporarily use this to activate extensions:
-    # https://yourdomain.com/extensions?usr=89.....&enable=lnurlp
-    # unclear why curl doesn't work ?
-    async def post_activate_ext(self, user_id: str, extension: str, active: int):
+    async def post_activate_ext(self, user_id: str, extension: str, active: bool):
         """
             activates an extension for a user created by User Manager Extension
         """
         try:
             tpath = "/usermanager/api/v1/extensions"
-            path = self._lnbits_url + tpath
-            body = {"userid": user_id, "extension": extension, "active": active}
-            jbody = json.dumps(body)
+            params = {"extension": extension, "userid": user_id, "active": active}
+            query_params = urllib.parse.urlencode(params)
+            path = self._lnbits_url + tpath + "?" + query_params
             res = await post_url(session=self._session, path=path,
-                                headers=self._invoice_headers, body=jbody)
+                                headers=self._invoice_headers, body="")
             return res
         except Exception as e:
             logger.info(e)
