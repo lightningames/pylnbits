@@ -1,25 +1,35 @@
-# test lndhub link creation
-import asyncio
+import pytest
+
 from aiohttp.client import ClientSession
+
 from pylnbits.config import Config
 from pylnbits.lndhub import LndHub
 
-# Example code
+"""
+Tests: 
+ 
+ Get admin hub link
+ Get invoice hub link
+"""
 
-async def main():
-    c = Config(config_file="config.yml")
-    url = c.lnbits_url
-    print(f"url: {url}")
-    print(f"headers: {c.headers()}")
-    print(f"admin_headers: {c.admin_headers()}")
+class TestLndHub:
 
-    async with ClientSession() as session:
-        lh = LndHub(c)
-        adminhub = lh.admin()
-        print(f'admin lndhub: {adminhub} ')
-        invoicehub = lh.invoice()
-        print(f'invoice lndhub: {invoicehub} ')
+    @pytest.fixture(autouse=True)
+    async def setup_vars(self):
+        c = Config(config_file="config.yml")
+        session = ClientSession()
+        self.lh = LndHub(c)
+        yield
+        await session.close()
 
+    # admin
+    async def test_admin(self):
+        adminhub = self.lh.admin()
+        assert adminhub, f"Failed to get adminhub link {adminhub}"
+        print(f'\nadmin lndhub: {adminhub} ')
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
+    # invoice
+    async def test_invoice(self):
+        invoicehub = self.lh.invoice()
+        assert invoicehub, f"Failed to get adminhub link {invoicehub}"
+        print(f'\ninvoice lndhub: {invoicehub} ')
