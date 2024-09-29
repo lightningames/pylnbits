@@ -1,33 +1,45 @@
-import asyncio
+import pytest
 
 from aiohttp.client import ClientSession
 
 from pylnbits.config import Config
 from pylnbits.split_payments import SplitPayments
 
-async def main():
+"""
+Tests: 
+ 
+ Get list of target wallets
+ Add target wallets
+ Delete all target wallets
+"""
 
-    c = Config(config_file="config.yml")
-    url = c.lnbits_url
-    print(f"url: {url}")
-    print(f"headers: {c.headers()}")
-    print(f"admin_headers: {c.admin_headers()}")
+class TestSplitPayments:
 
-    async with ClientSession() as session:
-        sp = SplitPayments(c, session)
-
-        # get list of target wallets
-        targetwallets = await sp.get_target_wallets()
+    @pytest.fixture(autouse=True)
+    async def setup_vars(self):
+        c = Config(config_file="config.yml")
+        session = ClientSession()
+        self.sp = SplitPayments(c, session)
+        yield
+        await session.close()
+    
+    # get list of target wallets
+    async def test_get_target_wallets(self):
+        targetwallets = await self.sp.get_target_wallets()
+        assert targetwallets is not None, f"Failed to get target wallets {targetwallets}"
         print(f"Target wallets : {targetwallets}")
 
-        # add target wallets
-        addwallets = await sp.add_target_wallet("me@example.com", "Me", 50)
-        print(f"Updated list of target wallets: {addwallets}")
+    # add target wallets
+    async def test_add_target_wallet(self):
+        lnaddress = "me@example.com"
+        alias = "Me"
+        split = 50
+        addwallets = await self.sp.add_target_wallet(lnaddress, alias, split)
+        assert "targets" in addwallets, f"Failed to add target wallet {addwallets}"
+        print(f"\nUpdated list of target wallets: {addwallets}")
 
-        # delete list of target wallets
-        # deletewallets = await sp.delete_target_wallets()
-        # print(f"status: {deletewallets}")
-
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
+    # delete list of target wallets
+    async def test_delete_target_wallets(self):
+        deletewallets = await self.sp.delete_target_wallets()
+        assert deletewallets == "null", f"Failed to delete target wallets: {deletewallets}"
+        print(f"\nTarget wallets deleted. Response: {deletewallets}")

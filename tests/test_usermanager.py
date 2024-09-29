@@ -1,79 +1,104 @@
-import asyncio
+import pytest
 
 from aiohttp.client import ClientSession
 
 from pylnbits.config import Config
 from pylnbits.user_manager import UserManager
 
-# Example code
+"""
+Tests: 
+ 
+ Get users
+ Get user info
+ POST user + initial wallet
+ POST create wallet
+ POST activate extension
+ Delete wallet
+ Delete user + wallets
+"""
 
-async def main():
+class TestUserManager:
 
-    c = Config(config_file="config.yml")
-    url = c.lnbits_url
-    print(f"url: {url}")
-    print(f"in_key: {c.in_key}")
-    print(f"headers: {c.headers()}")
+    @pytest.fixture(autouse=True)
+    async def setup_vars(self):
+        c = Config(config_file="config.yml")
+        session = ClientSession()
+        self.um = UserManager(c, session)
+        userinfo = await self.um.get_users()
+        self.uid = userinfo[0]["id"] if len(userinfo) > 0 else None
 
-    async with ClientSession() as session:
-        um = UserManager(c, session)
+        # ENTER YOUR USER ID HERE FOR TESTS TO WORK
+        self.admin_id = "ACCOUNT-USER-ID-HERE"
 
-        # get users
-        userinfo = await um.get_users()
-        print(f"Test User Manager: userinfo: {userinfo}\n")
-
-        # get user info
-        for user in userinfo:
-            uid = user["id"]
-            print(f"uid: {uid}")
-            walletinfo = await um.get_wallets(uid)
-            print(f"Test User Manager: get wallets: {walletinfo}\n")
-
-            # Transaction info
-            wid = walletinfo[0]["id"]
-            txinfo = await um.get_tx(wid)
-            print(f"User Manager - Tx info: {txinfo}, wallet id: {wid}")
-
-        # Post Create User + Initial
-        admin_id = walletinfo[0]["admin"]
+        yield
+        await session.close()
+    
+    # POST user + initial wallet
+    async def test_post_user_initial(self):
         user_name = "testuser1"
         wallet_name = "testwallet1"
 
-        print(f"admin_id: {admin_id}, username: {user_name}, walletname: {wallet_name}")
+        created_status = await self.um.post_user_initial(self.admin_id, user_name, wallet_name)
+        assert "id" in created_status, created_status.get("id","Failed to create user and wallet")
+        print(f"\nUser + Initial: created wallet: {created_status}\n")
 
-        created_status = await um.post_user_initial(admin_id, user_name, wallet_name)
-        print(f"User + Initial: created wallet: {created_status}\n")
+    
+    # Get users
+    async def test_get_users(self):
+        userinfo = await self.um.get_users()
+        assert userinfo is not None, "Failed to get users"
+        print(f"Test User Manager: userinfo: {userinfo}\n")
 
-        # Post Create Wallet
-        user_id = admin_id
-        # Body (application/json) - "admin_id" is a YOUR user ID
-        create_status = await um.post_wallet(user_id, wallet_name, admin_id)
-        print(f"Wallet Create: {create_status}\n")
+    # Get user info
+    async def test_get_user_info(self):
+        print(f"\nuid: {self.uid}")
+        # get wallet info
+        walletinfo = await self.um.get_wallets(self.uid)
+        assert len(walletinfo) > 0, f"Failed to get wallet info: {walletinfo}"
+        print(f"\nTest User Manager: get wallets: {walletinfo}")
 
-        # Post activate extension
+        wid = walletinfo[0]["id"]
+
+        # get transaction info
+        txinfo = await self.um.get_tx(wid)
+        assert txinfo is not None, "Failed to get transaction info"
+        print(f"\nUser Manager - Tx info: {txinfo}, wallet id: {wid}")
+        print(type(txinfo))
+
+    # POST create wallet
+    async def test_post_wallet(self):
+        walletinfo = await self.um.get_wallets(self.uid)
+        admin_id = walletinfo[0]["admin"]
+        wallet_name = "testwallet1"
+
+        create_status = await self.um.post_wallet(self.uid, wallet_name, admin_id)
+        assert "id" in create_status, create_status.get("id", "Failed to create wallet")
+        print(f"\nWallet Create: {create_status}\n")
+
+    # POST activate extension
+    async def test_post_activate_ext(self):
         extension = "bleskomat"
         active = True
-        user_id = "03ea3a3de6ab4b1abb14f53dc3cd6629"  # create_status['user']
 
-        activate_status = await um.post_activate_ext(user_id, extension, active)
+        activate_status = await self.um.post_activate_ext(self.uid, extension, active)
+        assert "extension" in activate_status, activate_status.get("detail", f"Failed to activate extension: {activate_status}")
         print(
-            f"Activate extension: {activate_status},\n"
+            f"\nActivate extension: {activate_status},\n"
             + f"Activate inputs: extension {extension},\n"
-            + f"active {active}, userid: {user_id} \n"
+            + f"active {active}, userid: {self.uid} \n"
         )
 
-        # Delete wallet
-        wallet_id = "a8f5286b714e40bbb7ff08e5e203632d"
-        del_result = await um.delete_wallet(wallet_id)
-        print(f"delete wallet: wallet_id {wallet_id} , result: {del_result}\n")
+    # Delete wallet
+    async def test_delete_wallet(self):
+        walletinfo = await self.um.get_wallets(self.uid)
+        wallet_id = walletinfo[0]["id"]
 
-        # Delete users and their wallets
-        user_id = "4ea4eddcc0a84a8a867d1e75c142e610"
-        result = await um.delete_user(user_id)
-        print(f"delete user and wallets: user_id {user_id}, result {result}\n")
+        del_result = await self.um.delete_wallet(wallet_id)
+        assert "detail" in del_result, f"Delete wallet failed: {del_result}"
+        print(f"\ndelete wallet: wallet_id {wallet_id} , result: {del_result}\n")
 
-    # TODO FINISH TESTS
-
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
+    # Delete user + wallets
+    async def test_delete_user(self):
+        result = await self.um.delete_user(self.uid)
+        assert result == "null", f"Delete user + wallet failed: {result}"
+        print(f"\ndelete user and wallets: user_id {self.uid}, result: {result}\n")

@@ -1,59 +1,71 @@
-# test lnurlp pay link
-import asyncio
+import pytest
 
 from aiohttp.client import ClientSession
 
 from pylnbits.config import Config
 from pylnbits.lnurl_p import LnurlPay
 
-# Example code for testing LNURLp
+"""
+Tests: 
+ 
+ Get list of paylinks
+ Get paylink
+ Create paylink
+ Update paylink
+ Delete paylink
+"""
 
-async def main():
-    c = Config(config_file="config.yml")
-    url = c.lnbits_url
-    print(f"url: {url}")
-    print(f"headers: {c.headers()}")
-    print(f"admin_headers: {c.admin_headers()}")
+class TestLnurlPay:
 
-    async with ClientSession() as session:
-        lw = LnurlPay(c, session)
+    @pytest.fixture(autouse=True)
+    async def setup_vars(self):
+        c = Config(config_file="config.yml")
+        session = ClientSession()
+        self.lp = LnurlPay(c, session)
+        links = await self.lp.list_paylinks()
+        self.pay_id = links[0]["id"] if len(links) else None
+        yield
+        await session.close()
 
-        # list links        
-        links = await lw.list_paylinks()
-        print("list all links: " , str(links), "\n\n")
+    # list links
+    async def test_list_paylinks(self):
+        links = await self.lp.list_paylinks()
+        assert len(links) > 0, f"Failed to list links. Response: {links}"
+        print("\nlist all links: " , str(links), "\n\n")
 
-        # get pay link 
-        pay_id = links[0]['id']
-        print(f'pay_id for get_link: {pay_id}')
-        getlink = await lw.get_paylink(pay_id=str(pay_id))
-        print("get pay link: ", str(getlink), "\n")
+    # get pay link
+    async def test_get_paylink(self):
+        print(f'\npay_id for get_link: {self.pay_id}')
+        
+        getlink = await self.lp.get_paylink(pay_id=str(self.pay_id))
+        assert getlink, f"Failed to get link: {getlink}"
+        print("\nget pay link: ", getlink, "\n")
 
-        # create pay link
+    # create pay links
+    async def test_create_paylink(self):
         body = {"description": "auto pay link",
                 "amount": 100,
                 "max": 10000,
                 "min": 100,
                 "comment_chars": 100}
+        newlink = await self.lp.create_paylink(body=body)
+        assert "id" in newlink, f"Failed to create link: {newlink}"
+        print(f"\ncreate pay link with body: {body}, result link: {newlink} \n")
 
-        newlink = await lw.create_paylink(body=body)
-        print(f"create pay link with body: {body}, result link: {newlink} \n")
-        pay_id = newlink['id']
-
-        # update newly created link above
-        # all body fields are required
+    # update pay link
+    async def test_update_paylink(self):
         body = {"description": "update auto paylink",
                 "amount": 150, 
                 "max": 10000,
                 "min": 100,
                 "comment_chars": 100}
-        update_result = await lw.update_paylink(pay_id=str(pay_id), body=body)
-        print(f'update pay link with intial id: {pay_id}, body: {body} \n result: {update_result}\n\n')
+        
+        update_result = await self.lp.update_paylink(pay_id=str(self.pay_id), body=body)
+        assert "id" in update_result, f"Failed to update pay link: {update_result}"
+        print(f'\nupdate pay link with initial id: {self.pay_id}\n\nbody: {body} \n\nresult: {update_result}\n\n')
 
-        # delete above created link
-        delete_result = await lw.delete_paylink(pay_id=str(pay_id))
-        print(f'delete pay link id: {pay_id}, result: {delete_result}\n\n')
-
-
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(main())
+    # delete paylink
+    async def test_delete_paylink(self):
+        delete_result = await self.lp.delete_paylink(pay_id=str(self.pay_id))
+        assert delete_result, f"Failed to delete paylink {delete_result}"
+        print(f'delete pay link id: {self.pay_id}, result: {delete_result}\n\n')
