@@ -26,7 +26,7 @@ pip install -e .
 ```
 
 ### Release Note
-Current pylnbits release is **0.0.8**
+Current pylnbits release is **0.0.9**
 
 ###### Resolved Bugs
 - UnboundLocalError when config_file is None
