@@ -10,6 +10,7 @@ Next, click on `enable extensions` in the side navigation bar on your LNBits acc
 - LNURLp
 - LNURLw
 - LndHub
+- Split Payments
 
 ## Getting Started
 

@@ -67,6 +67,7 @@ NOTE: This is experimental software. The only modules & Extensions covered prese
 - LNURLw
 - LndHub
 - Invoices
+- Split Payments
 
 If you would like to contribute, please feel free to make a pull request. 
 
