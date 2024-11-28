@@ -45,7 +45,8 @@ class TestUserWallet:
 
     # pay invoice
     async def test_pay_invoice(self):
-        bolt = "lnbc800n1ps23r2dpp5ahh77dmx2d6yd3cw2xheks20kwe3nwh4zhcllxzjcq5fat3kvkssdqsd9h8vmmfvdjk7mn9cqzpgrzjq02snzwz4petaly54yzjkm358rqa5as9hkgydjvxxmvlpuk6dfd9cz0y2cqq0qsqqyqqqqlgqqqqqqgq9qsp5cut63ftfcffwkrr2w9r50w5e40m93k3er75mc70ysxps7yercs9s9qyyssqs7qk3cz97nm5m6ehzedcxhttx87l7x5kk38gvwkzzv4lhrhddtqq3sk43nnvsddagf36ledw9vhlpqxuu5s53pj6sz926mwqxf8chsgp2m9j8w"  
+        # bolt = "lnbc800n1ps23r2dpp5ahh77dmx2d6yd3cw2xheks20kwe3nwh4zhcllxzjcq5fat3kvkssdqsd9h8vmmfvdjk7mn9cqzpgrzjq02snzwz4petaly54yzjkm358rqa5as9hkgydjvxxmvlpuk6dfd9cz0y2cqq0qsqqyqqqqlgqqqqqqgq9qsp5cut63ftfcffwkrr2w9r50w5e40m93k3er75mc70ysxps7yercs9s9qyyssqs7qk3cz97nm5m6ehzedcxhttx87l7x5kk38gvwkzzv4lhrhddtqq3sk43nnvsddagf36ledw9vhlpqxuu5s53pj6sz926mwqxf8chsgp2m9j8w"  
+        bolt = input("Enter invoice to pay: ")
         res = await self.uw.pay_invoice(True, bolt)
         assert "payment_hash" in res, res.get("detail", "Failed to pay")
         print(f"\nOutput:\n{res}")
@@ -53,7 +54,8 @@ class TestUserWallet:
     # pay lnurl
     async def test_pay_lnurl(self):
         # Test LNURL. Replace with your own.
-        paylnurl = "LNURL1DP68GURN8GHJ7ER9D4HJUMRWVF5HGUEWVDHK6TMVDE6HYMRS9UUXJ6JVGGUSYQG89P"
+        # paylnurl = "LNURL1DP68GURN8GHJ7ER9D4HJUMRWVF5HGUEWVDHK6TMVDE6HYMRS9UUXJ6JVGGUSYQG89P"
+        paylnurl = input("Enter LNURL to pay: ")
         # pay_lnurl(lnurl, amount, comment, description)
         res = await self.uw.pay_lnurl(paylnurl, 1, "hello", "world")
         assert "payment_hash" in res, "Failed to pay LNURL"
@@ -62,7 +64,8 @@ class TestUserWallet:
     # pay lnaddress
     async def test_pay_lnaddress(self):
         # Test lightning address. Replace with your own. 
-        lnaddress = "testln@demo.lnbits.com"
+        # lnaddress = "testln@demo.lnbits.com"
+        lnaddress = input("Enter lightning address to pay: ")
         # pay_lnaddress(lnurl, amount, comment, description)
         res = await self.uw.pay_lnaddress(lnaddress, 1, "sunshine", "hello")
         assert "payment_hash" in res, "Failed to pay lightning address"
@@ -78,8 +81,9 @@ class TestUserWallet:
     # decode
     async def test_get_decoded(self):
         # Test data. You can replace with LNURL or bolt11
-        data = "lnbc800n1ps23r2dpp5ahh77dmx2d6yd3cw2xheks20kwe3nwh4zhcllxzjcq5fat3kvkssdqsd9h8vmmfvdjk7mn9cqzpgrzjq02snzwz4petaly54yzjkm358rqa5as9hkgydjvxxmvlpuk6dfd9cz0y2cqq0qsqqyqqqqlgqqqqqqgq9qsp5cut63ftfcffwkrr2w9r50w5e40m93k3er75mc70ysxps7yercs9s9qyyssqs7qk3cz97nm5m6ehzedcxhttx87l7x5kk38gvwkzzv4lhrhddtqq3sk43nnvsddagf36ledw9vhlpqxuu5s53pj6sz926mwqxf8chsgp2m9j8w"
+        # data = "lnbc800n1ps23r2dpp5ahh77dmx2d6yd3cw2xheks20kwe3nwh4zhcllxzjcq5fat3kvkssdqsd9h8vmmfvdjk7mn9cqzpgrzjq02snzwz4petaly54yzjkm358rqa5as9hkgydjvxxmvlpuk6dfd9cz0y2cqq0qsqqyqqqqlgqqqqqqgq9qsp5cut63ftfcffwkrr2w9r50w5e40m93k3er75mc70ysxps7yercs9s9qyyssqs7qk3cz97nm5m6ehzedcxhttx87l7x5kk38gvwkzzv4lhrhddtqq3sk43nnvsddagf36ledw9vhlpqxuu5s53pj6sz926mwqxf8chsgp2m9j8w"
         # data = "LNURL1DP68GURN8GHJ7ER9D4HJUMRWVF5HGUEWVDHK6TMVDE6HYMRS9UUXJ6JVGGUSYQG89P"
+        data = input("Enter invoice or LNURL to decode: ")
         res = await self.uw.get_decoded(data)
         assert "payment_hash" in res or "domain" in res, res.get("message", "Decode failed")
         print(f"\nDecoded output: \n{res}")
@@ -99,7 +103,8 @@ class TestUserWallet:
 
     # get invoices by memo
     async def test_get_invoicesbymemo(self):
-        memo = "hello"
+        # memo = "hello"
+        memo = input("Enter memo to find: ")
         res = await self.uw.get_invoicesbymemo(memo)
         assert res is not None, "Failed to get invoices"
         print(f"\nList of invoices: \n{res}")
